@@ -825,6 +825,71 @@ body .box-input label small{
   text-align: right;
 }
 
+/* Botão flutuante do WhatsApp */
+.floating-whatsapp{
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 1000;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #55dd8c 0%, #1fbd60 100%);
+  color: #FFF;
+  box-shadow: 0 10px 24px rgba(19, 151, 71, 0.38);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.floating-whatsapp::before{
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 2px solid rgba(67, 214, 128, 0.55);
+  border-radius: 50%;
+  animation: whatsapp-pulse 2.2s ease-out infinite;
+}
+.floating-whatsapp i{
+  font-size: 3.6rem;
+  position: relative;
+  z-index: 1;
+}
+.floating-whatsapp-label{
+  position: absolute;
+  right: 74px;
+  padding: 9px 13px;
+  border-radius: 8px;
+  background: #222933;
+  color: #FFF;
+  font-family: 'bold', Arial, Helvetica, sans-serif;
+  font-size: 1.4rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.floating-whatsapp:hover{
+  color: #FFF;
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 14px 28px rgba(19, 151, 71, 0.48);
+}
+.floating-whatsapp:hover .floating-whatsapp-label,
+.floating-whatsapp:focus-visible .floating-whatsapp-label{
+  opacity: 1;
+  transform: translateX(0);
+}
+.floating-whatsapp:focus-visible{
+  outline: 3px solid #FFF;
+  outline-offset: 3px;
+}
+@keyframes whatsapp-pulse{
+  0% { transform: scale(0.88); opacity: 0.8; }
+  70%, 100% { transform: scale(1.22); opacity: 0; }
+}
+
 /*-----------------------------------------------------------------------------
   Modal
 -----------------------------------------------------------------------------*/
@@ -888,6 +953,18 @@ body .box-input label small{
 
 /* Mobile L */
 @media (max-width: 600px){
+  .floating-whatsapp{
+    width: 56px;
+    height: 56px;
+    right: 18px;
+    bottom: 18px;
+  }
+  .floating-whatsapp i{
+    font-size: 3.2rem;
+  }
+  .floating-whatsapp-label{
+    display: none;
+  }
   .banner{
     min-height: 0;
     padding: 38px 0 45px;
