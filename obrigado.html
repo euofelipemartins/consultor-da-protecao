@@ -45,6 +45,12 @@
     window.addEventListener('pageshow', function () { window.scrollTo(0, 0); });
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: 'cotacao_enviada' });
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    window.gtag('event', 'conversion', {
+      'send_to': 'AW-17928910662/ZSiYCOTqlNYcEMbuleVC',
+      'value': 1.0,
+      'currency': 'BRL'
+    });
   </script>
 </body>
 </html>
