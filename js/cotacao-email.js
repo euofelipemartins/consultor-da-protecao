@@ -159,6 +159,7 @@
       var originalButtonText = sendButton.textContent;
       var quoteData = {
         'Nome': name.value.trim(),
+        'email': email.value.trim(),
         'E-mail para resposta': email.value.trim(),
         'WhatsApp': mobile.value.trim(),
         'Tipo de veiculo': vehicleType.nextElementSibling.textContent.trim(),
@@ -191,16 +192,7 @@
           return response.json();
         })
         .then(function () {
-          window.alert('Cotacao recebida! Em breve entraremos em contato.');
-          form.querySelectorAll('input').forEach(function (input) {
-            if (input.type === 'radio' || input.type === 'checkbox') {
-              input.checked = false;
-            } else {
-              input.value = '';
-            }
-            input.classList.remove('input-true', 'required');
-          });
-          showStep(step1, step3);
+          window.location.assign('/obrigado.html');
         })
         .catch(function () {
           window.alert('Nao foi possivel enviar sua cotacao agora. Tente novamente ou fale conosco pelo WhatsApp.');
