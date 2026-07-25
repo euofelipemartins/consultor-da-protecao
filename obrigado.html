@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#ff7900">
   <title>Cotação recebida | Consultor da Proteção</title>
   <link rel="canonical" href="https://consultordaprotecao.com.br/obrigado.html">
-  <link rel="stylesheet" href="css/obrigado.css?v=20260724">
+  <link rel="stylesheet" href="css/obrigado.css?v=20260724-layout-fix">
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -40,6 +40,9 @@
   </main>
 
   <script>
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    window.addEventListener('pageshow', function () { window.scrollTo(0, 0); });
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: 'cotacao_enviada' });
   </script>
