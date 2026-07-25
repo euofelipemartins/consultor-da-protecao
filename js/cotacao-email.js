@@ -2,6 +2,7 @@
   'use strict';
 
   var recipient = 'euofelipemartins@gmail.com';
+  var quoteEndpoint = 'https://formsubmit.co/ajax/' + recipient;
   var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   function field(form, name) {
@@ -154,25 +155,60 @@
       if (invalidState || invalidCity) return;
 
       var vehicleType = form.querySelector('input[name="pwr_field_type-' + index + '"]:checked');
-      var message = [
-        'Olá, Felipe!',
-        '',
-        'Nova solicitação de cotação pelo site:',
-        '',
-        'Nome: ' + name.value.trim(),
-        'E-mail: ' + email.value.trim(),
-        'WhatsApp: ' + mobile.value.trim(),
-        'Tipo de veículo: ' + vehicleType.nextElementSibling.textContent.trim(),
-        'Marca: ' + brand.value.trim(),
-        'Ano: ' + year.value.trim(),
-        'Modelo: ' + model.value.trim(),
-        'Placa: ' + plate.value.trim(),
-        'Estado: ' + state.value.trim(),
-        'Cidade: ' + city.value.trim(),
-        'Uso em táxi/aplicativo: ' + (field(form, 'pwr_field_uber').checked ? 'Sim' : 'Não')
-      ].join('\n');
+      var sendButton = field(form, 'pwr_step_3_go');
+      var originalButtonText = sendButton.textContent;
+      var quoteData = {
+        'Nome': name.value.trim(),
+        'E-mail para resposta': email.value.trim(),
+        'WhatsApp': mobile.value.trim(),
+        'Tipo de veiculo': vehicleType.nextElementSibling.textContent.trim(),
+        'Marca': brand.value.trim(),
+        'Ano': year.value.trim(),
+        'Modelo': model.value.trim(),
+        'Placa': plate.value.trim(),
+        'Estado': state.value.trim(),
+        'Cidade': city.value.trim(),
+        'Uso em taxi/aplicativo': field(form, 'pwr_field_uber').checked ? 'Sim' : 'Nao',
+        '_subject': 'Nova cotacao de protecao veicular',
+        '_template': 'table',
+        '_replyto': email.value.trim(),
+        '_url': 'https://consultordaprotecao.com.br/'
+      };
 
-      window.location.href = 'mailto:' + recipient + '?subject=' + encodeURIComponent('Nova cotação de proteção veicular') + '&body=' + encodeURIComponent(message);
+      sendButton.disabled = true;
+      sendButton.textContent = 'Enviando...';
+
+      fetch(quoteEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(quoteData)
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error('Nao foi possivel enviar a cotacao.');
+          return response.json();
+        })
+        .then(function () {
+          window.alert('Cotacao recebida! Em breve entraremos em contato.');
+          form.querySelectorAll('input').forEach(function (input) {
+            if (input.type === 'radio' || input.type === 'checkbox') {
+              input.checked = false;
+            } else {
+              input.value = '';
+            }
+            input.classList.remove('input-true', 'required');
+          });
+          showStep(step1, step3);
+        })
+        .catch(function () {
+          window.alert('Nao foi possivel enviar sua cotacao agora. Tente novamente ou fale conosco pelo WhatsApp.');
+        })
+        .then(function () {
+          sendButton.disabled = false;
+          sendButton.textContent = originalButtonText;
+        });
     });
   }
 
