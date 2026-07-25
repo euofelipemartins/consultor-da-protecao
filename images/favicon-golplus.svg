@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="GOL PLUS">
+  <rect width="64" height="64" rx="14" fill="#ffffff"/>
+  <text x="6" y="47" fill="#152e55" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" letter-spacing="-8">g</text>
+  <path d="M39 17v10h10v9H39v10h-9V36H20v-9h10V17z" fill="#f36b21"/>
+</svg>
