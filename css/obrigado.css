@@ -4,6 +4,15 @@
   --green: #37ce7c;
 }
 
+@font-face {
+  font-family: 'icomoon';
+  src: url('../fonts/icomoon.woff') format('woff'),
+       url('../fonts/icomoon.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
 * { box-sizing: border-box; }
 
 html, body { min-height: 100%; }
@@ -130,16 +139,14 @@ body {
 .whatsapp-button b { font-size: 14px; }
 
 .whatsapp-icon {
-  width: 25px;
-  height: 25px;
-  display: grid;
-  place-items: center;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 0;
-  transform: rotate(-45deg);
+  color: #fff;
+  font-family: 'icomoon';
+  font-size: 26px;
+  line-height: 1;
+}
+
+.whatsapp-icon::before {
+  content: "\e909";
 }
 
 @media (max-width: 600px) {
