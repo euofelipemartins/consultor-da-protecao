@@ -953,6 +953,15 @@ body .box-input label small{
 
 /* Mobile L */
 @media (max-width: 600px){
+  /* Logo maior no cabeçalho móvel: aproveita melhor a área em branco. */
+  .site-brand{
+    font-size: 5.15rem;
+    letter-spacing: -2.2px;
+  }
+  .site-brand span{
+    font-size: 3.95rem;
+    letter-spacing: -1.7px;
+  }
   .floating-whatsapp{
     width: 56px;
     height: 56px;
