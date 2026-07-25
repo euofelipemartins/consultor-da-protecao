@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# Mantém a página de confirmação em uma URL curta e única.
+RewriteCond %{THE_REQUEST} \s/+obrigado\.html[\s?] [NC]
+RewriteRule ^obrigado\.html$ /obrigado [R=301,L]
+RewriteRule ^obrigado/?$ obrigado.html [L]

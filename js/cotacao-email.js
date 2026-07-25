@@ -192,7 +192,7 @@
           return response.json();
         })
         .then(function () {
-          window.location.assign('/obrigado.html');
+          window.location.assign('/obrigado');
         })
         .catch(function () {
           window.alert('Nao foi possivel enviar sua cotacao agora. Tente novamente ou fale conosco pelo WhatsApp.');
