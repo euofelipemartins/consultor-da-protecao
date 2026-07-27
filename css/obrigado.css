@@ -7,7 +7,6 @@
   --thank-line: #d8e4f3;
   --thank-white: #ffffff;
   --thank-green: #20c76a;
-  --thank-orange: #ff7a00;
 }
 
 @font-face {
@@ -58,7 +57,7 @@ body {
   width: min(88vw, 1040px);
   aspect-ratio: 1;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--thank-orange), #ff9b32);
+  background: linear-gradient(135deg, var(--thank-blue-700), var(--thank-blue-500, #1688ff));
   opacity: .98;
 }
 

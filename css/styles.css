@@ -5,7 +5,6 @@
 	src: local('☺'), url('../fonts/SFDisplay-Regular.woff') format('woff'), url('./src/fonts//SFDisplay-Regular.ttf') format('truetype'), url('../images/SFDisplay-Regular.svg') format('svg');
 	font-weight: normal;
 	font-style: normal;
-	font-display: swap;
 }
 @font-face {
 	font-family: 'medium';
@@ -15,7 +14,6 @@
   url('../images/SFDisplay-Medium.svg') format('svg');
 	font-weight: normal;
 	font-style: normal;
-	font-display: swap;
 }
 @font-face {
 	font-family: 'heavy';
@@ -25,7 +23,6 @@
   url('../images/SFDisplay-Heavy.svg') format('svg');
 	font-weight: normal;
 	font-style: normal;
-	font-display: swap;
 }
 @font-face {
 	font-family: 'bold';
@@ -35,7 +32,6 @@
   url('../images/SFDisplay-Bold.svg') format('svg');
 	font-weight: normal;
 	font-style: normal;
-	font-display: swap;
 }
 
 @font-face {
@@ -47,7 +43,7 @@
     url('../images/icomoon.svg#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 
