@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var recipient = 'euofelipemartins@gmail.com';
+  var recipient = 'felipe@consultordaprotecao.com.br';
   var quoteEndpoint = 'https://formsubmit.co/ajax/' + recipient;
   var adsConversion = 'AW-17928910662/ZSiYCOTqlNYcEMbuleVC';
 
