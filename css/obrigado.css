@@ -1,7 +1,13 @@
 :root {
-  --blue: #0759d6;
-  --orange: #063b99;
-  --green: #37ce7c;
+  --thank-blue-950: #061a3b;
+  --thank-blue-800: #063b99;
+  --thank-blue-700: #0759d6;
+  --thank-blue-100: #eaf3ff;
+  --thank-slate: #415575;
+  --thank-line: #d8e4f3;
+  --thank-white: #ffffff;
+  --thank-green: #20c76a;
+  --thank-orange: #ff7a00;
 }
 
 @font-face {
@@ -14,134 +20,154 @@
 }
 
 * { box-sizing: border-box; }
-
 html, body { min-height: 100%; }
 
 body {
   margin: 0;
-  color: #152238;
+  color: var(--thank-blue-950);
   font-family: Arial, Helvetica, sans-serif;
-  background: #f8f8f8;
-  overflow: hidden;
+  background: #f4f8fc;
 }
 
 .thank-you-page {
-  min-height: 600px;
-  height: 100vh;
-  height: 100svh;
-  padding: 92px 20px 0;
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 40px 20px 54px;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  background: linear-gradient(to bottom, #f8f8f8 0, #f8f8f8 50%, var(--orange) 50%, var(--orange) 100%);
+  isolation: isolate;
 }
 
-.brand { display: block; width: 230px; line-height: 0; }
+.thank-you-page::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background: radial-gradient(circle at 82% 4%, rgba(22, 136, 255, .14), transparent 28%), linear-gradient(145deg, #f9fcff 0%, #eaf3ff 100%);
+}
+
+.thank-you-page::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  right: -14vw;
+  bottom: -28vw;
+  width: min(88vw, 1040px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--thank-orange), #ff9b32);
+  opacity: .98;
+}
+
+.brand {
+  display: block;
+  width: min(236px, 62vw);
+  line-height: 0;
+}
+
 .brand img { display: block; width: 100%; height: auto; }
 
 .thank-you-card {
-  width: min(100%, 358px);
-  margin-top: 87px;
+  width: min(100%, 510px);
+  margin: clamp(34px, 7vh, 72px) 0 auto;
   overflow: hidden;
-  border: 1px solid #d8d8d8;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(16, 31, 52, .06);
+  border: 1px solid var(--thank-line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, .97);
+  box-shadow: 0 24px 55px rgba(6, 59, 153, .16);
 }
 
 .bell {
-  height: 58px;
+  width: 62px;
+  height: 62px;
+  margin: 30px auto 0;
   display: grid;
   place-items: center;
-  border-bottom: 1px solid #d8d8d8;
-  font-size: 3.4rem;
+  border-radius: 18px;
+  background: var(--thank-blue-100);
+  font-size: 32px;
   line-height: 1;
 }
 
-.thank-you-content {
-  padding: 31px 34px 32px;
-  text-align: center;
-}
+.thank-you-content { padding: 20px clamp(25px, 6vw, 52px) 38px; text-align: center; }
 
 .thank-you-content h1 {
-  margin: 0 0 17px;
-  font-size: 14px;
-  line-height: 1.18;
+  max-width: 390px;
+  margin: 0 auto 16px;
+  color: var(--thank-blue-950);
+  font-size: clamp(23px, 3vw, 30px);
+  line-height: 1.16;
+  letter-spacing: -.025em;
 }
 
 .thank-you-content p {
-  margin: 0 0 11px;
-  font-size: 10px;
-  line-height: 1.42;
+  max-width: 415px;
+  margin: 0 auto 13px;
+  color: var(--thank-slate);
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .consultant-contact {
-  width: 212px;
-  margin: 12px auto 0;
-  padding: 10px 8px 15px;
-  background: #edf1f2;
-  font-size: 10px;
+  max-width: 360px;
+  margin: 23px auto 0;
+  padding: 20px;
+  border: 1px solid var(--thank-line);
+  border-radius: 15px;
+  background: #f8fbff;
+  font-size: 14px;
 }
 
-.consultant-contact strong,
-.consultant-contact > a:not(.whatsapp-button) {
-  display: block;
-}
-
-.consultant-contact > a:not(.whatsapp-button) {
-  margin-top: 2px;
-  color: #152238;
-  text-decoration: none;
-}
+.consultant-contact strong { display: block; color: var(--thank-blue-950); font-size: 16px; }
+.consultant-contact > a:not(.whatsapp-button) { display: block; margin-top: 4px; color: var(--thank-slate); text-decoration: none; }
+.consultant-contact > a:not(.whatsapp-button):hover { color: var(--thank-blue-700); text-decoration: underline; }
 
 .whatsapp-button {
-  width: 178px;
-  min-height: 40px;
-  margin: 15px auto 0;
-  padding: 5px 8px;
+  width: min(100%, 260px);
+  min-height: 52px;
+  margin: 17px auto 0;
+  padding: 8px 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  border-radius: 28px;
-  color: #fff;
-  background: var(--green);
-  box-shadow: 0 5px 10px rgba(39, 177, 101, .24);
-  font-size: 9px;
+  gap: 9px;
+  border-radius: 11px;
+  color: var(--thank-white);
+  background: var(--thank-green);
+  box-shadow: 0 9px 18px rgba(32, 199, 106, .22);
+  font-size: 11px;
   font-weight: 700;
-  line-height: 1.05;
+  line-height: 1.12;
   text-align: left;
   text-decoration: none;
-  transition: transform .2s ease, filter .2s ease;
+  transition: transform .2s ease, background .2s ease;
 }
 
-.whatsapp-button:hover,
-.whatsapp-button:focus-visible {
-  color: #fff;
-  filter: brightness(.94);
-  transform: translateY(-2px);
-}
-
-.whatsapp-button b { font-size: 14px; }
-
-.whatsapp-icon {
-  color: #fff;
-  font-family: 'icomoon';
-  font-size: 26px;
-  line-height: 1;
-}
-
-.whatsapp-icon::before {
-  content: "\e909";
-}
+.whatsapp-button:hover, .whatsapp-button:focus-visible { color: var(--thank-white); background: #16ad59; transform: translateY(-2px); }
+.whatsapp-button b { display: block; margin-top: 1px; font-size: 15px; }
+.whatsapp-icon { color: var(--thank-white); font-family: 'icomoon'; font-size: 27px; line-height: 1; }
+.whatsapp-icon::before { content: "\e909"; }
 
 @media (max-width: 600px) {
-  .thank-you-page {
-    min-height: 0;
-    padding-top: 60px;
-    background: linear-gradient(to bottom, #f8f8f8 0, #f8f8f8 44%, var(--orange) 44%, var(--orange) 100%);
-  }
-  .brand { width: 205px; }
-  .thank-you-card { margin-top: 67px; }
+  .thank-you-page { min-height: 100svh; padding: 29px 16px 35px; }
+  .thank-you-page::after { right: -38vw; bottom: -45vw; width: 136vw; }
+  .brand { width: min(210px, 64vw); }
+  .thank-you-card { margin-top: 37px; border-radius: 18px; }
+  .bell { width: 54px; height: 54px; margin-top: 23px; border-radius: 15px; font-size: 28px; }
+  .thank-you-content { padding: 18px 22px 27px; }
+  .thank-you-content h1 { font-size: 24px; }
+  .thank-you-content p { font-size: 14px; }
+  .consultant-contact { margin-top: 19px; padding: 17px 14px; }
+}
+
+@media (max-height: 690px) and (min-width: 601px) {
+  .thank-you-page { padding-top: 24px; padding-bottom: 24px; }
+  .thank-you-card { margin-top: 26px; }
+  .bell { width: 52px; height: 52px; margin-top: 18px; font-size: 27px; }
+  .thank-you-content { padding-top: 15px; padding-bottom: 20px; }
+  .thank-you-content p { font-size: 13px; }
+  .consultant-contact { margin-top: 15px; padding: 14px; }
 }
