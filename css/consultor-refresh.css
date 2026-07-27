@@ -86,6 +86,7 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 .form-description { margin: 0 0 18px; color: var(--cp-slate-700); font-size: 1.4rem; line-height: 1.35; }
 .banner .container header .box-call-to-action-form .group-form { margin-bottom: 13px; }
 .banner .container header .box-call-to-action-form .group-form label, .modal-content .group-form label { color: var(--cp-slate-900); font-family: 'bold', Arial, sans-serif; font-size: 1.35rem; }
+.field-optional { display: inline-flex; align-items: center; margin-left: 5px; padding: 2px 6px; border-radius: 999px; background: var(--cp-blue-100); color: var(--cp-blue-800); font-family: 'medium', Arial, sans-serif; font-size: 1.05rem; line-height: 1.15; vertical-align: middle; }
 .box-call-to-action-form input, .box-call-to-action-form select { min-height: 46px; margin-top: 6px; border: 1px solid #bfd1ea; border-radius: 8px; color: var(--cp-slate-900); font-family: 'medium', Arial, sans-serif; font-size: 1.55rem; }
 .box-call-to-action-form input:focus, .box-call-to-action-form select:focus { border-color: var(--cp-blue-700); box-shadow: 0 0 0 3px rgba(7, 89, 214, .12); }
 .box-call-to-action-form .button { min-height: 48px; margin-top: 12px; border-radius: 9px; background: var(--cp-blue-700); font-size: 1.55rem; }
