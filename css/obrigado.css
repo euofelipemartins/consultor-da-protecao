@@ -1,6 +1,6 @@
 :root {
-  --blue: #142e55;
-  --orange: #ff7900;
+  --blue: #0759d6;
+  --orange: #063b99;
   --green: #37ce7c;
 }
 
@@ -37,21 +37,8 @@ body {
   background: linear-gradient(to bottom, #f8f8f8 0, #f8f8f8 50%, var(--orange) 50%, var(--orange) 100%);
 }
 
-.brand {
-  color: var(--blue);
-  font-size: 5rem;
-  font-weight: 800;
-  letter-spacing: -3px;
-  line-height: .8;
-  text-decoration: none;
-}
-
-.brand span {
-  color: #f06b18;
-  font-size: 3.8rem;
-  font-weight: 400;
-  letter-spacing: -2.2px;
-}
+.brand { display: block; width: 230px; line-height: 0; }
+.brand img { display: block; width: 100%; height: auto; }
 
 .thank-you-card {
   width: min(100%, 358px);
@@ -155,7 +142,6 @@ body {
     padding-top: 60px;
     background: linear-gradient(to bottom, #f8f8f8 0, #f8f8f8 44%, var(--orange) 44%, var(--orange) 100%);
   }
-  .brand { font-size: 4.5rem; }
-  .brand span { font-size: 3.45rem; }
+  .brand { width: 205px; }
   .thank-you-card { margin-top: 67px; }
 }

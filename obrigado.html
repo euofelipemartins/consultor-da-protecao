@@ -6,10 +6,10 @@
   <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="/images/favicon-golplus.svg" type="image/svg+xml">
-  <link rel="shortcut icon" href="/images/favicon-golplus.svg" type="image/svg+xml">
+  <link rel="icon" href="/images/consultor-da-protecao-favicon.png" type="image/png">
+  <link rel="shortcut icon" href="/images/consultor-da-protecao-favicon.png" type="image/png">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#ff7900">
+  <meta name="theme-color" content="#0759d6">
   <title>Cotação recebida | Consultor da Proteção</title>
   <link rel="canonical" href="https://consultordaprotecao.com.br/obrigado">
   <link rel="stylesheet" href="css/obrigado.css?v=20260724-whatsapp-icon">
@@ -20,7 +20,7 @@
   <!-- End Google Tag Manager (noscript) -->
 
   <main class="thank-you-page">
-    <a class="brand" href="/" aria-label="Voltar para a página inicial da GOL PLUS">gol<span>plus</span></a>
+    <a class="brand" href="/" aria-label="Voltar para a página inicial do Consultor da Proteção"><img src="images/consultor-da-protecao-logo-transparent.png" alt="Consultor da Proteção" width="1102" height="447"></a>
 
     <section class="thank-you-card" aria-labelledby="thank-you-title">
       <div class="bell" aria-hidden="true">🔔</div>
@@ -30,9 +30,9 @@
         <p>Se preferir, entre em contato com o consultor abaixo.</p>
 
         <div class="consultant-contact">
-          <strong>Felipe dos Santos Martins</strong>
+          <strong>Felipe Martins</strong>
           <a href="mailto:euofelipemartins@gmail.com">euofelipemartins@gmail.com</a>
-          <a class="whatsapp-button" href="https://wa.me/5519998766431?text=Ol%C3%A1%2C%20acabei%20de%20solicitar%20uma%20cota%C3%A7%C3%A3o." target="_blank" rel="noopener noreferrer" aria-label="Falar com Felipe pelo WhatsApp">
+          <a class="whatsapp-button" href="https://wa.me/5519998766431?text=Ol%C3%A1%2C%20Felipe%21%20Vim%20pelo%20site%20e%20gostaria%20de%20receber%20uma%20cota%C3%A7%C3%A3o%20de%20prote%C3%A7%C3%A3o%20veicular." target="_blank" rel="noopener noreferrer" data-track-whatsapp="thank_you" aria-label="Falar com Felipe no WhatsApp">
             <span class="whatsapp-icon" aria-hidden="true"></span>
             <span>WhatsApp do consultor<br><b>(19) 99876-6431</b></span>
           </a>
@@ -45,13 +45,11 @@
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
     window.addEventListener('pageshow', function () { window.scrollTo(0, 0); });
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: 'cotacao_enviada' });
-    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-    window.gtag('event', 'conversion', {
-      'send_to': 'AW-17928910662/ZSiYCOTqlNYcEMbuleVC',
-      'value': 1.0,
-      'currency': 'BRL'
+    document.querySelectorAll('[data-track-whatsapp]').forEach(function (link) {
+      link.addEventListener('click', function () {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'whatsapp_click', cta_location: link.dataset.trackWhatsapp });
+      });
     });
   </script>
 </body>
