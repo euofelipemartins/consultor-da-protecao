@@ -40,7 +40,7 @@
       }
     }
   </script>
-  <script src="js/cotacao-email.js?v=20260727-consultor-email" defer></script>
+  <script src="js/cotacao-email.js?v=20260727-email-then-whatsapp" defer></script>
 
   <style>
     :root{
@@ -61,7 +61,7 @@
   </style>
   <link rel="stylesheet" href="css/styles.css?v=20260724-mobile-logo">
   <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/consultor-refresh.css?v=20260727-ios-inputs">
+  <link rel="stylesheet" href="css/consultor-refresh.css?v=20260727-form-whatsapp">
 
 </head>
 <body>
@@ -196,11 +196,13 @@
               
               <div class="row-flexbox">
                 <button type="submit" class="back" id="pwr_step_3_back"><i class="icon-left"></i></button>
-                <button class="button" id="pwr_step_3_go">Receber minha cotação</button>
+                <button class="button" id="pwr_step_3_go">Receber cotação no WhatsApp</button>
               </div>
+              <p class="form-whatsapp-note">Seus dados serão registrados e você será direcionado ao WhatsApp para continuar o atendimento.</p>
             </div>
 
             <p class="form-status" role="status" aria-live="polite"></p>
+            <a class="form-whatsapp-fallback" href="#" target="_blank" rel="noopener noreferrer" data-track-whatsapp="form_error_fallback" hidden>Continuar pelo WhatsApp</a>
             <p class="form-support-note">Atendimento personalizado, gratuito e sem compromisso.</p>
             <p class="form-privacy-note">Seus dados serão utilizados apenas para o atendimento e a preparação da sua cotação.</p>
           </div>
@@ -629,11 +631,13 @@
                 
                 <div class="row-flexbox">
                   <button type="submit" class="back" id="pwr_step_3_back"><i class="icon-left"></i></button>
-                  <button class="button" id="pwr_step_3_go">Receber minha cotação</button>
+                  <button class="button" id="pwr_step_3_go">Receber cotação no WhatsApp</button>
                 </div>
+                <p class="form-whatsapp-note">Seus dados serão registrados e você será direcionado ao WhatsApp para continuar o atendimento.</p>
               </div>
   
               <p class="form-status" role="status" aria-live="polite"></p>
+              <a class="form-whatsapp-fallback" href="#" target="_blank" rel="noopener noreferrer" data-track-whatsapp="form_error_fallback" hidden>Continuar pelo WhatsApp</a>
               <p class="form-support-note">Atendimento personalizado, gratuito e sem compromisso.</p>
               <p class="form-privacy-note">Seus dados serão utilizados apenas para o atendimento e a preparação da sua cotação.</p>
             </div>

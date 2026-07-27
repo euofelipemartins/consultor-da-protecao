@@ -4,6 +4,8 @@
   var recipient = 'felipe@consultordaprotecao.com.br';
   var quoteEndpoint = 'https://formsubmit.co/ajax/' + recipient;
   var adsConversion = 'AW-17928910662/ZSiYCOTqlNYcEMbuleVC';
+  var whatsappNumber = '5519998766431';
+  var isSubmitting = false;
 
   function field(form, name) {
     return form.querySelector('[data-field="' + name + '"]');
@@ -33,6 +35,53 @@
     if (digits.length <= 2) return '(' + digits;
     if (digits.length <= 7) return '(' + digits.slice(0, 2) + ') ' + digits.slice(2);
     return '(' + digits.slice(0, 2) + ') ' + digits.slice(2, 7) + '-' + digits.slice(7);
+  }
+
+  function addIfPresent(target, label, value) {
+    if (value === undefined || value === null || String(value).trim() === '') return;
+    target[label] = String(value).trim();
+  }
+
+  function getUtmParameters() {
+    var params = new URLSearchParams(window.location.search);
+    var utms = {};
+    ['source', 'medium', 'campaign', 'content', 'term'].forEach(function (name) {
+      var value = params.get('utm_' + name);
+      if (value) utms['UTM ' + name.charAt(0).toUpperCase() + name.slice(1)] = value;
+    });
+    return utms;
+  }
+
+  function getSubmittedAt() {
+    return new Intl.DateTimeFormat('pt-BR', {
+      dateStyle: 'short',
+      timeStyle: 'medium',
+      timeZone: 'America/Sao_Paulo'
+    }).format(new Date());
+  }
+
+  function buildWhatsAppUrl(details) {
+    var lines = [
+      'Olá, Felipe! Acabei de solicitar uma cotação pelo site.',
+      '',
+      'Nome: ' + details.name,
+      'Tipo de veículo: ' + details.vehicleType,
+      'Marca/modelo: ' + details.brand + ' ' + details.model,
+      'Ano: ' + details.year
+    ];
+
+    if (details.plate) lines.push('Placa: ' + details.plate);
+    if (details.city || details.state) lines.push('Cidade/UF: ' + [details.city, details.state].filter(Boolean).join('/'));
+    lines.push('Uso em aplicativo: ' + details.uber, '', 'Gostaria de conhecer as opções de proteção disponíveis para o meu perfil.');
+
+    return 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(lines.join('\n'));
+  }
+
+  function setWhatsAppFallback(form, url, isVisible) {
+    var fallback = form.querySelector('.form-whatsapp-fallback');
+    if (!fallback) return;
+    fallback.href = url || '#';
+    fallback.hidden = !isVisible;
   }
 
   function replaceWithInput(form, name, placeholder, type) {
@@ -135,6 +184,7 @@
         if (input === plate) input.value = input.value.toUpperCase();
         markInvalid(input, false);
         setStatus(form, '');
+        setWhatsAppFallback(form, '', false);
       });
     });
 
@@ -190,6 +240,8 @@
     });
 
     field(form, 'pwr_step_3_go').addEventListener('click', function () {
+      if (isSubmitting) return;
+
       var invalidState = state.value.trim().length < 2;
       var invalidCity = city.value.trim().length < 2;
       markInvalid(state, invalidState);
@@ -203,25 +255,44 @@
       var vehicleType = form.querySelector('input[name="pwr_field_type-' + index + '"]:checked');
       var sendButton = field(form, 'pwr_step_3_go');
       var originalButtonText = sendButton.textContent;
-      var quoteData = {
-        'Nome': name.value.trim(),
-        'WhatsApp': mobile.value.trim(),
-        'Tipo de veículo': vehicleType.nextElementSibling.textContent.trim(),
-        'Marca': brand.value.trim(),
-        'Ano': year.value.trim(),
-        'Modelo': model.value.trim(),
-        'Placa': plate.value.trim(),
-        'Estado': state.value.trim(),
-        'Cidade': city.value.trim(),
-        'Uso em táxi/aplicativo': field(form, 'pwr_field_uber').checked ? 'Sim' : 'Não',
-        '_subject': 'Nova cotação de proteção veicular',
-        '_template': 'table',
-        '_url': 'https://consultordaprotecao.com.br/'
+      var details = {
+        name: name.value.trim(),
+        mobile: mobile.value.trim(),
+        vehicleType: vehicleType.nextElementSibling.textContent.trim(),
+        brand: brand.value.trim(),
+        year: year.value.trim(),
+        model: model.value.trim(),
+        plate: plate.value.trim(),
+        state: state.value.trim(),
+        city: city.value.trim(),
+        uber: field(form, 'pwr_field_uber').checked ? 'Sim' : 'Não'
       };
+      var quoteData = {
+        '_subject': 'Nova cotação pelo site — ' + details.name,
+        '_template': 'table',
+        '_url': window.location.href
+      };
+      addIfPresent(quoteData, 'Nome', details.name);
+      addIfPresent(quoteData, 'WhatsApp', details.mobile);
+      addIfPresent(quoteData, 'Tipo de veículo', details.vehicleType);
+      addIfPresent(quoteData, 'Marca/modelo', details.brand + ' ' + details.model);
+      addIfPresent(quoteData, 'Ano', details.year);
+      addIfPresent(quoteData, 'Placa', details.plate);
+      addIfPresent(quoteData, 'Cidade/UF', details.city + '/' + details.state);
+      addIfPresent(quoteData, 'Uso em aplicativo', details.uber);
+      addIfPresent(quoteData, 'Origem', 'Landing page Consultor da Proteção');
+      addIfPresent(quoteData, 'Data e horário', getSubmittedAt());
+      var utmParameters = getUtmParameters();
+      Object.keys(utmParameters).forEach(function (label) {
+        addIfPresent(quoteData, label, utmParameters[label]);
+      });
+      var whatsappUrl = buildWhatsAppUrl(details);
 
+      isSubmitting = true;
       sendButton.disabled = true;
-      sendButton.textContent = 'Enviando...';
-      setStatus(form, 'Enviando sua solicitação de cotação...', 'loading');
+      sendButton.textContent = 'Enviando sua cotação...';
+      setWhatsAppFallback(form, '', false);
+      setStatus(form, 'Enviando sua cotação...', 'loading');
 
       fetch(quoteEndpoint, {
         method: 'POST',
@@ -233,19 +304,28 @@
           return response.json();
         })
         .then(function (payload) {
-          if (payload && payload.success === false) throw new Error('O serviço de envio recusou a solicitação.');
+          if (!payload || payload.success === false || payload.success === 'false') throw new Error('O serviço de envio recusou a solicitação.');
           trackEvent('lead_form_submit', {
             form_name: 'cotacao_protecao_veicular',
             page_location: window.location.pathname,
             lead_source: 'website'
           });
-          setStatus(form, 'Solicitação enviada com sucesso. Redirecionando...', 'success');
-          sendAdsConversion(function () { window.location.assign('/obrigado'); });
+          setStatus(form, 'Cotação registrada com sucesso! Estamos direcionando você para o WhatsApp.', 'success');
+          sendAdsConversion(function () {
+            trackEvent('whatsapp_redirect', {
+              form_name: 'cotacao_protecao_veicular',
+              page_location: window.location.pathname,
+              redirect_destination: 'whatsapp'
+            });
+            window.location.href = whatsappUrl;
+          });
         })
         .catch(function () {
+          isSubmitting = false;
           sendButton.disabled = false;
           sendButton.textContent = originalButtonText;
-          setStatus(form, 'Não foi possível enviar agora. Tente novamente ou fale com Felipe no WhatsApp.', 'error');
+          setStatus(form, 'Não foi possível registrar sua cotação neste momento. Verifique sua conexão e tente novamente.', 'error');
+          setWhatsAppFallback(form, whatsappUrl, true);
         });
     });
   }

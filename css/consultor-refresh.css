@@ -92,6 +92,10 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 .box-call-to-action-form .button:hover { background: var(--cp-blue-800); filter: none; }
 .form-privacy-note { margin: 14px 0 0; color: var(--cp-slate-700); font-size: 1.2rem; line-height: 1.4; }
 .form-support-note { margin: 14px 0 0; color: var(--cp-slate-900); font-family: 'medium', Arial, sans-serif; font-size: 1.3rem; line-height: 1.4; }
+.form-whatsapp-note { margin: 13px 0 0; color: var(--cp-slate-700); font-size: 1.2rem; line-height: 1.4; text-align: center; }
+.form-whatsapp-fallback { width: 100%; min-height: 46px; margin-top: 12px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--cp-green); border-radius: 9px; color: #087443; font-family: 'bold', Arial, sans-serif; font-size: 1.4rem; text-decoration: none; }
+.form-whatsapp-fallback:hover, .form-whatsapp-fallback:focus-visible { color: #087443; background: #effcf5; }
+.form-whatsapp-fallback[hidden] { display: none !important; }
 .form-status { min-height: 0; margin: 0; font-family: 'medium', Arial, sans-serif; font-size: 1.3rem; line-height: 1.4; }
 .form-status[data-state="error"] { min-height: 18px; margin-top: 12px; color: #b42318; }
 .form-status[data-state="loading"] { min-height: 18px; margin-top: 12px; color: var(--cp-blue-800); }
