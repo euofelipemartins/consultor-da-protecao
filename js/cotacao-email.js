@@ -75,6 +75,9 @@
     mobile.type = 'tel';
     mobile.inputMode = 'tel';
     mobile.autocomplete = 'tel';
+    mobile.placeholder = '(00) 00000-0000';
+    mobile.maxLength = 15;
+    mobile.pattern = '\\([0-9]{2}\\) [0-9]{4,5}-[0-9]{4}';
     mobile.required = true;
 
     replaceWithInput(form, 'pwr_field_brand', 'Marca do veículo');
@@ -133,6 +136,13 @@
         markInvalid(input, false);
         setStatus(form, '');
       });
+    });
+
+    mobile.addEventListener('paste', function () {
+      window.setTimeout(function () { mobile.value = formatMobile(mobile.value); }, 0);
+    });
+    mobile.addEventListener('blur', function () {
+      mobile.value = formatMobile(mobile.value);
     });
 
     field(form, 'pwr_step_1_next').addEventListener('click', function () {
@@ -221,7 +231,8 @@
           if (!response.ok) throw new Error('Não foi possível enviar a cotação.');
           return response.json();
         })
-        .then(function () {
+        .then(function (payload) {
+          if (payload && payload.success === false) throw new Error('O serviço de envio recusou a solicitação.');
           trackEvent('lead_form_submit', {
             form_name: 'cotacao_protecao_veicular',
             page_location: window.location.pathname,
