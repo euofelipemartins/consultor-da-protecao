@@ -86,7 +86,7 @@
     var plate = field(form, 'pwr_field_plate');
     plate.placeholder = 'ABC1D23';
     plate.autocomplete = 'off';
-    plate.required = true;
+    plate.required = false;
     replaceWithInput(form, 'pwr_field_state', 'Estado');
     replaceWithInput(form, 'pwr_field_city', 'Cidade');
 
@@ -169,14 +169,15 @@
       var invalidBrand = brand.value.trim().length < 2;
       var invalidYear = year.value.trim().length !== 4;
       var invalidModel = model.value.trim().length < 2;
-      var invalidPlate = plate.value.replace(/[^A-Z0-9]/gi, '').length !== 7;
+      var plateValue = plate.value.replace(/[^A-Z0-9]/gi, '');
+      var invalidPlate = plateValue.length > 0 && plateValue.length !== 7;
       markInvalid(brand, invalidBrand);
       markInvalid(year, invalidYear);
       markInvalid(model, invalidModel);
       markInvalid(plate, invalidPlate);
 
       if (!vehicleType || invalidBrand || invalidYear || invalidModel || invalidPlate) {
-        setStatus(form, 'Selecione o tipo de veículo e preencha marca, ano, modelo e placa corretamente.', 'error');
+        setStatus(form, 'Selecione o tipo de veículo e preencha marca, ano e modelo corretamente. A placa é opcional.', 'error');
         return;
       }
       setStatus(form, '');
