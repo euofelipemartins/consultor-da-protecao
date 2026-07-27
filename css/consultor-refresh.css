@@ -224,7 +224,8 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
   .hero-benefits { width: fit-content; max-width: 100%; margin-right: auto; margin-left: auto; text-align: left; }
   .hero-actions { justify-content: center; }
   .banner .container header .box-call-to-action-form { max-width: 510px !important; }
-  .box-call-to-action-form input, .box-call-to-action-form select { min-height: 50px; font-size: 16px; }
+  .box-call-to-action-form input, .box-call-to-action-form select, .box-call-to-action-form textarea { min-height: 50px; font-size: 16px !important; }
+  .modal-content .box-call-to-action-form input, .modal-content .box-call-to-action-form select, .modal-content .box-call-to-action-form textarea { font-size: 16px !important; }
   .box-call-to-action-form .button, .box-call-to-action-form .back { min-height: 50px; font-size: 16px; }
   .faq-list summary { min-height: 56px; display: flex; align-items: center; }
   .partners-section, .consultant-section, .steps-section, .section-boxs, .faq-section { padding: 58px 0; }
