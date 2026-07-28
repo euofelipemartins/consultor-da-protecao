@@ -196,7 +196,7 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 .section-boxs .lists-box li:nth-child(n+7) { display: none; }
 .section-boxs .lists-box i { display: inline-block; color: var(--cp-blue-700); font-size: 3.4rem; }
 .section-boxs .text-list-box span { display: block; margin-top: 16px; color: var(--cp-blue-950); font-family: 'bold', Arial, sans-serif; font-size: 1.8rem; }
-.section-boxs .text-list-box p { margin-top: 8px; color: var(--cp-slate-700); font-size: 1.35rem; line-height: 1.4; }
+.section-boxs .lists-box li .text-list-box p { margin-top: 8px; color: var(--cp-slate-700); font-size: 1.35rem; line-height: 1.4; }
 .section-boxs .row-flexbox-center { margin-top: 30px; text-align: center; }
 .section-boxs .button-modal { display: inline-flex; min-height: 50px; align-items: center; justify-content: center; border-radius: 9px; background: var(--cp-blue-700); color: var(--cp-white); padding: 14px 22px; font-family: 'bold', Arial, sans-serif; font-size: 1.5rem; }
 .section-boxs .button-modal:hover { color: var(--cp-white); background: var(--cp-blue-800); }

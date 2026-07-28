@@ -2,7 +2,7 @@
 @font-face {
 	font-family: 'regular';
 	src: url('../fonts/SFDisplay-Regular.eot');
-	src: local('☺'), url('../fonts/SFDisplay-Regular.woff') format('woff'), url('./src/fonts//SFDisplay-Regular.ttf') format('truetype'), url('../images/SFDisplay-Regular.svg') format('svg');
+	src: url('../fonts/SFDisplay-Regular.woff2') format('woff2'), url('../fonts/SFDisplay-Regular.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -10,9 +10,7 @@
 @font-face {
 	font-family: 'medium';
 	src: url('../fonts/SFDisplay-Medium.eot');
-  src: local('☺'), url('../fonts/SFDisplay-Medium.woff') format('woff'), 
-  url('./src/fonts//SFDisplay-Medium.ttf') format('truetype'), 
-  url('../images/SFDisplay-Medium.svg') format('svg');
+  src: url('../fonts/SFDisplay-Medium.woff2') format('woff2'), url('../fonts/SFDisplay-Medium.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -20,9 +18,7 @@
 @font-face {
 	font-family: 'heavy';
 	src: url('../fonts/SFDisplay-Heavy.eot');
-  src: local('☺'), url('../fonts/SFDisplay-Heavy.woff') format('woff'), 
-  url('./src/fonts//SFDisplay-Heavy.ttf') format('truetype'), 
-  url('../images/SFDisplay-Heavy.svg') format('svg');
+  src: url('../fonts/SFDisplay-Heavy.woff2') format('woff2'), url('../fonts/SFDisplay-Heavy.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -30,9 +26,7 @@
 @font-face {
 	font-family: 'bold';
 	src: url('../fonts/SFDisplay-Bold.eot');
-  src: local('☺'), url('../fonts/SFDisplay-Bold.woff') format('woff'), 
-  url('./src/fonts//SFDisplay-Bold.ttf') format('truetype'), 
-  url('../images/SFDisplay-Bold.svg') format('svg');
+  src: url('../fonts/SFDisplay-Bold.woff2') format('woff2'), url('../fonts/SFDisplay-Bold.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
