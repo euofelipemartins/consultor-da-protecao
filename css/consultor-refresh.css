@@ -132,7 +132,7 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 .partner-brand-card { border-color: #9ab6da; }
 .partner-logo { display: block; flex: 0 0 auto; max-width: 100%; width: auto; height: auto; object-fit: contain; }
 .partner-logo-apvs, .partner-logo-proauto, .partner-logo-gol { width: 170px; max-height: 68px; }
-.partner-logo-gol { height: 68px; object-fit: cover; object-position: center; }
+.partner-logo-gol { height: auto; max-height: none; object-fit: contain; }
 .section-note, .benefits-disclaimer { margin: 22px 0 0; color: var(--cp-slate-700); font-size: 1.4rem; line-height: 1.5; }
 
 .consultant-section { background: var(--cp-slate-100); }
@@ -287,7 +287,7 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
   .partner-placeholder { min-height: 96px; }
   .partner-logo-card { min-height: 104px; }
   .partner-logo-apvs, .partner-logo-proauto, .partner-logo-gol { width: 150px; max-height: 60px; }
-  .partner-logo-gol { height: 60px; }
+  .partner-logo-gol { max-height: none; }
   .partner-placeholder > span { font-size: 2.5rem; }
   .consultant-highlights { grid-template-columns: 1fr; }
   .section-boxs .lists-box { grid-template-columns: 1fr; }
@@ -325,7 +325,7 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
   .section-intro > p, .consultant-copy > p { font-size: 1.65rem; }
   .partner-logo-card { min-height: 108px; padding: 12px 14px; gap: 10px; }
   .partner-logo-apvs, .partner-logo-proauto, .partner-logo-gol { width: 136px; max-height: 54px; }
-  .partner-logo-gol { height: 54px; }
+  .partner-logo-gol { max-height: none; }
   .consultant-image-wrap { width: min(100%, 285px); border-width: 7px; border-radius: 22px; }
   .consulting-steps li { padding: 23px; }
   .section-boxs .lists-box li { padding: 19px 17px; }
