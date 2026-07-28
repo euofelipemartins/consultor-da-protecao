@@ -119,6 +119,11 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 .form-privacy-note { margin: 14px 0 0; color: var(--cp-slate-700); font-size: 1.2rem; line-height: 1.4; }
 .form-support-note { margin: 14px 0 0; color: var(--cp-slate-900); font-family: 'medium', Arial, sans-serif; font-size: 1.3rem; line-height: 1.4; }
 .form-whatsapp-note { margin: 13px 0 0; color: var(--cp-slate-700); font-size: 1.2rem; line-height: 1.4; text-align: center; }
+.form-secondary-actions { display: grid; gap: 12px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--cp-slate-200); }
+.form-secondary-whatsapp { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #bfd1ea; border-radius: 9px; background: var(--cp-slate-100); color: var(--cp-blue-800); font-family: 'bold', Arial, sans-serif; font-size: 1.35rem; text-decoration: none; }
+.form-secondary-whatsapp:hover, .form-secondary-whatsapp:focus-visible { background: var(--cp-blue-100); color: var(--cp-blue-800); }
+.form-secondary-whatsapp i { color: var(--cp-green); font-size: 2rem; }
+.form-secondary-actions .economy-highlight { max-width: none; margin: 0; text-align: left; }
 .form-whatsapp-fallback { width: 100%; min-height: 46px; margin-top: 12px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--cp-green); border-radius: 9px; color: #087443; font-family: 'bold', Arial, sans-serif; font-size: 1.4rem; text-decoration: none; }
 .form-whatsapp-fallback:hover, .form-whatsapp-fallback:focus-visible { color: #087443; background: #effcf5; }
 .form-whatsapp-fallback[hidden] { display: none !important; }
@@ -270,12 +275,13 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
   .site-nav { display: flex; margin-left: auto; }
   .site-nav a:not(.site-nav-cta) { display: none; }
   .site-nav .site-nav-cta { padding: 10px 12px; font-size: 1.25rem; }
-  .banner { padding: 46px 0 54px; }
-  .banner .container header { display: flex; gap: 29px; }
+  .banner { padding: 28px 0 34px; }
+  .banner .container header { display: flex; gap: 24px; }
   .banner .container header .text-banner { text-align: center; }
   .hero-eyebrow { text-align: left; }
-  .banner .container header .text-banner > p { margin-right: auto; margin-left: auto; }
-  .hero-benefits { width: fit-content; max-width: 100%; margin-right: auto; margin-left: auto; text-align: left; }
+  .banner .container header .text-banner h1 { margin: 10px auto 12px; font-size: clamp(38px, 6vw, 46px) !important; line-height: 1.08; }
+  .banner .container header .text-banner > p { max-width: 38ch; margin-right: auto; margin-left: auto; font-size: clamp(17px, 2.4vw, 19px); line-height: 1.4; }
+  .hero-benefits { width: fit-content; max-width: 100%; gap: 12px; margin: 16px auto 0; text-align: left; }
   .hero-actions { justify-content: center; }
   .banner .container header .box-call-to-action-form { max-width: 510px !important; }
   .box-call-to-action-form input, .box-call-to-action-form select, .box-call-to-action-form textarea { min-height: 50px; font-size: 16px !important; }
@@ -303,13 +309,12 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 @media (max-width: 520px) {
   .container, .banner .container { width: min(100% - 32px, 1170px); }
   .header-page .container { width: 100%; }
-  .banner .container header .text-banner h1 { font-size: clamp(3.55rem, 11vw, 4.6rem) !important; line-height: 1.06; }
-  .banner .container header .text-banner > p { font-size: 1.8rem; }
-  .banner .container header .text-banner > .availability-note { font-size: 1.3rem; }
+  .banner .container header .text-banner h1 { font-size: clamp(38px, 10.5vw, 46px) !important; line-height: 1.08; }
+  .banner .container header .text-banner > p { font-size: clamp(17px, 4.6vw, 19px); }
   .hero-actions { display: grid; grid-template-columns: 1fr; width: 100%; }
   .hero-primary, .hero-secondary { width: 100%; }
   .credibility-stats { justify-content: center; }
-  .availability-note, .economy-highlight { margin-right: auto; margin-left: auto; text-align: center; }
+  .availability-note { margin-right: auto; margin-left: auto; text-align: center; }
   .hero-primary, .hero-secondary, .final-primary, .final-secondary { min-height: 52px; font-size: 1.55rem; }
   .hero-microcopy { text-align: center; }
   .banner .container header .box-call-to-action-form { padding: 21px !important; }
@@ -347,9 +352,9 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
   .site-brand { width: 178px; flex-basis: 178px; }
   .banner { padding: 34px 0 42px; }
   .hero-eyebrow { padding: 6px 9px; font-size: 1.2rem; }
-  .banner .container header .text-banner h1 { margin: 13px 0 15px; font-size: clamp(3.25rem, 10vw, 4rem) !important; }
-  .banner .container header .text-banner > p { font-size: 1.7rem; line-height: 1.43; }
-  .hero-benefits { gap: 10px; margin: 22px auto; }
+  .banner .container header .text-banner h1 { margin: 10px auto 12px; font-size: clamp(38px, 10vw, 42px) !important; line-height: 1.08; }
+  .banner .container header .text-banner > p { font-size: 17px; line-height: 1.4; }
+  .hero-benefits { gap: 12px; margin: 16px auto 0; }
   .hero-benefits li { font-size: 1.42rem; }
   .banner .container header .box-call-to-action-form { padding: 18px !important; border-radius: 15px !important; }
   .banner .container header .box-call-to-action-form > span { font-size: 1.8rem; }
