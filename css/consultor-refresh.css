@@ -107,8 +107,9 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 .form-description { margin: 0 0 18px; color: var(--cp-slate-700); font-size: 1.4rem; line-height: 1.35; }
 .form-progress { margin: 0 0 12px; color: var(--cp-blue-700); font-family: 'bold', Arial, sans-serif; font-size: 1.25rem; }
 .form-field-help { display: block; margin-top: 7px; color: var(--cp-slate-700); font-size: 1.15rem; line-height: 1.35; }
-.form-security-note { display: inline-flex; align-items: center; gap: 6px; margin: 7px 0 0; color: var(--cp-slate-700); font-family: 'medium', Arial, sans-serif; font-size: 1.15rem; line-height: 1.3; }
+.form-security-note { display: flex; align-items: center; gap: 6px; margin: 7px 0 0; color: var(--cp-slate-700); font-family: 'medium', Arial, sans-serif; font-size: 1.15rem; line-height: 1.3; }
 .form-security-note svg { width: 15px; height: 15px; flex: 0 0 15px; color: var(--cp-blue-700); }
+.banner .container header .box-call-to-action-form .form-security-note span { display: inline; justify-content: flex-start; margin: 0; color: inherit; font-family: inherit; font-size: inherit; }
 .banner .container header .box-call-to-action-form .group-form { margin-bottom: 13px; }
 .banner .container header .box-call-to-action-form .group-form label { color: var(--cp-slate-900); font-family: 'bold', Arial, sans-serif; font-size: 1.35rem; }
 .box-call-to-action-form input, .box-call-to-action-form select { min-height: 46px; margin-top: 6px; border: 1px solid #bfd1ea; border-radius: 8px; color: var(--cp-slate-900); font-family: 'medium', Arial, sans-serif; font-size: 1.55rem; }
