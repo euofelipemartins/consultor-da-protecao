@@ -85,6 +85,7 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 .banner .container header .box-call-to-action-form > span, .modal-content .box-call-to-action-form > span { display: block; margin: 0 0 8px; color: var(--cp-blue-950); font-family: 'bold', Arial, sans-serif; font-size: 2.1rem; line-height: 1.2; text-align: left; }
 .form-description { margin: 0 0 18px; color: var(--cp-slate-700); font-size: 1.4rem; line-height: 1.35; }
 .form-progress { margin: 0 0 12px; color: var(--cp-blue-700); font-family: 'bold', Arial, sans-serif; font-size: 1.25rem; }
+.form-field-help { display: block; margin-top: 7px; color: var(--cp-slate-700); font-size: 1.15rem; line-height: 1.35; }
 .banner .container header .box-call-to-action-form .group-form { margin-bottom: 13px; }
 .banner .container header .box-call-to-action-form .group-form label, .modal-content .group-form label { color: var(--cp-slate-900); font-family: 'bold', Arial, sans-serif; font-size: 1.35rem; }
 .box-call-to-action-form input, .box-call-to-action-form select { min-height: 46px; margin-top: 6px; border: 1px solid #bfd1ea; border-radius: 8px; color: var(--cp-slate-900); font-family: 'medium', Arial, sans-serif; font-size: 1.55rem; }
@@ -110,6 +111,8 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 .box-call-to-action-form input.option-input.radio:checked { border: 6px solid var(--cp-blue-700); }
 .box-call-to-action-form .group-form li label { min-width: 0; margin: 0; color: var(--cp-slate-900); font-size: 1.35rem; line-height: 1.1; }
 .box-call-to-action-form .box-input { height: auto; min-height: 48px; border-color: #bfd1ea; border-radius: 8px; }
+.box-call-to-action-form .app-usage-group .box-input { gap: 8px; }
+.box-call-to-action-form .app-usage-group .box-input label { margin: 0 10px 0 0; }
 .box-call-to-action-form input.option-input.checkbox { accent-color: var(--cp-blue-700); }
 .form-preferences { margin: 16px 0 0; padding: 0; border: 0; }
 .form-preferences legend { margin: 0 0 9px; color: var(--cp-slate-900); font-family: 'bold', Arial, sans-serif; font-size: 1.35rem; }

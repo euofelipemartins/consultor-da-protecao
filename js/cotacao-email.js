@@ -5,8 +5,6 @@
   var quoteEndpoint = 'https://formsubmit.co/ajax/' + recipient;
   var adsConversion = 'AW-17928910662/ZSiYCOTqlNYcEMbuleVC';
   var whatsappNumber = '5519998766431';
-  var isSubmitting = false;
-
   function field(form, name) {
     return form.querySelector('[data-field="' + name + '"]');
   }
@@ -29,12 +27,31 @@
     element.setAttribute('aria-invalid', isInvalid ? 'true' : 'false');
   }
 
+  function getMobileDigits(value) {
+    var digits = String(value || '').replace(/\D/g, '');
+    if ((digits.length === 12 || digits.length === 13) && digits.indexOf('55') === 0) digits = digits.slice(2);
+    return digits.slice(0, 11);
+  }
+
   function formatMobile(value) {
-    var digits = value.replace(/\D/g, '').slice(0, 11);
+    var digits = getMobileDigits(value);
     if (digits.length === 0) return '';
     if (digits.length <= 2) return '(' + digits;
     if (digits.length <= 7) return '(' + digits.slice(0, 2) + ') ' + digits.slice(2);
     return '(' + digits.slice(0, 2) + ') ' + digits.slice(2, 7) + '-' + digits.slice(7);
+  }
+
+  function normalizeMobile(value) {
+    var digits = getMobileDigits(value);
+    return digits ? '+55 ' + digits : '';
+  }
+
+  function formatPlate(value) {
+    return String(value || '').replace(/[^a-z0-9]/gi, '').toUpperCase().slice(0, 7);
+  }
+
+  function isValidPlate(value) {
+    return /^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(value);
   }
 
   function addIfPresent(target, label, value) {
@@ -61,20 +78,19 @@
   }
 
   function buildWhatsAppUrl(details) {
+    var vehicle = [details.brand, details.model, details.year].filter(Boolean).join(' ');
     var lines = [
-      'Olá, Felipe! Acabei de solicitar uma cotação pelo site.',
+      'Olá, Felipe! Acabei de preencher a cotação no site.',
       '',
       'Nome: ' + details.name,
       'Tipo de veículo: ' + details.vehicleType,
-      'Marca/modelo: ' + details.brand + ' ' + details.model,
-      'Ano: ' + details.year
+      'Placa: ' + details.plate
     ];
 
-    if (details.plate) lines.push('Placa: ' + details.plate);
-    if (details.city || details.state) lines.push('Cidade/UF: ' + [details.city, details.state].filter(Boolean).join('/'));
+    if (vehicle) lines.push('Veículo: ' + vehicle);
+    if (details.city || details.state) lines.push('Cidade: ' + [details.city, details.state].filter(Boolean).join('/'));
     lines.push('Uso em aplicativo: ' + details.uber);
-    if (details.preferences.length) lines.push('O que considero mais importante: ' + details.preferences.join(', '));
-    lines.push('', 'Gostaria de conhecer as opções disponíveis para o meu perfil.');
+    lines.push('', 'Gostaria de receber as opções de proteção veicular.');
 
     return 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(lines.join('\n'));
   }
@@ -88,6 +104,12 @@
 
   function replaceWithInput(form, name, placeholder, type) {
     var original = field(form, name);
+    if (original.tagName.toLowerCase() === 'input') {
+      original.type = type || 'text';
+      original.placeholder = placeholder;
+      original.required = true;
+      return original;
+    }
     var input = document.createElement('input');
     input.type = type || 'text';
     input.placeholder = placeholder;
@@ -105,6 +127,87 @@
     stepToShow.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
+  function createQuoteId() {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') return 'CP-' + window.crypto.randomUUID();
+    if (window.crypto && typeof window.crypto.getRandomValues === 'function') {
+      var values = new Uint32Array(2);
+      window.crypto.getRandomValues(values);
+      return 'CP-' + Date.now().toString(36) + '-' + values[0].toString(36) + values[1].toString(36);
+    }
+    return 'CP-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
+  }
+
+  function getQuoteId(form) {
+    if (!form.dataset.quoteId) form.dataset.quoteId = createQuoteId();
+    return form.dataset.quoteId;
+  }
+
+  function setFormCopy(form, step) {
+    var title = Array.prototype.slice.call(form.children).find(function (element) { return element.tagName === 'SPAN'; });
+    var description = form.querySelector('.form-description');
+    if (!title || !description) return;
+    if (step === 1) {
+      title.textContent = 'Vamos começar sua cotação';
+      description.textContent = 'Primeiro, informe seus dados de contato para continuar.';
+    } else {
+      title.textContent = 'Agora precisamos dos dados do veículo';
+      description.textContent = 'A placa é necessária para identificar o veículo e preparar sua cotação.';
+    }
+  }
+
+  function focusInvalid(element) {
+    if (!element) return;
+    element.focus({ preventScroll: true });
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function legacyField(form, id) {
+    return form.querySelector('#' + id);
+  }
+
+  function normalizeLegacyForm(form) {
+    var legacyStep3 = legacyField(form, 'pwr_step_3');
+    if (!legacyStep3) return;
+
+    var step1 = legacyField(form, 'pwr_step_1');
+    var step2 = legacyField(form, 'pwr_step_2');
+    var step2Action = legacyField(form, 'pwr_step_2_next');
+    var state = legacyField(form, 'pwr_field_state');
+    var city = legacyField(form, 'pwr_field_city');
+    var uber = legacyField(form, 'pwr_field_uber');
+    var plate = legacyField(form, 'pwr_field_plate');
+    var actionRow = step2Action.closest('.row-flexbox');
+
+    step1.querySelector('.form-progress').textContent = 'Etapa 1 de 2';
+    step2.querySelector('.form-progress').textContent = 'Etapa 2 de 2';
+    step2Action.id = 'pwr_step_2_go';
+    step2Action.textContent = 'Receber minha cotação no WhatsApp';
+
+    var stateGroup = state.closest('.group-form');
+    var cityGroup = city.closest('.group-form');
+    var uberGroup = uber.closest('.group-form');
+    stateGroup.querySelector('label').textContent = 'Em qual estado o veículo está?';
+    stateGroup.querySelector('label').htmlFor = 'pwr_field_state';
+    cityGroup.querySelector('label').textContent = 'Em qual cidade o veículo está?';
+    cityGroup.querySelector('label').htmlFor = 'pwr_field_city';
+    uberGroup.classList.add('app-usage-group');
+    uberGroup.innerHTML = '<label>O veículo é utilizado em aplicativo?</label><div class="box-input" role="radiogroup" aria-label="Uso do veículo em aplicativo"><input id="pwr_field_uber_no" type="radio" class="option-input radio" name="pwr_field_uber" value="Não" checked><label for="pwr_field_uber_no">Não</label><input id="pwr_field_uber_yes" type="radio" class="option-input radio" name="pwr_field_uber" value="Sim"><label for="pwr_field_uber_yes">Sim</label></div>';
+
+    var plateGroup = plate.closest('.group-form');
+    plateGroup.querySelector('label').textContent = 'Qual é a placa do veículo?';
+    plateGroup.querySelector('label').htmlFor = 'pwr_field_plate';
+    var plateHelp = document.createElement('small');
+    plateHelp.className = 'form-field-help';
+    plateHelp.textContent = 'A placa é necessária para identificar o veículo e consultar as opções disponíveis.';
+    plateGroup.appendChild(plateHelp);
+
+    step2.insertBefore(stateGroup, actionRow);
+    step2.insertBefore(cityGroup, actionRow);
+    step2.insertBefore(uberGroup, actionRow);
+    legacyStep3.remove();
+    setFormCopy(form, 1);
+  }
+
   function prepareFields(form, index) {
     form.querySelectorAll('[id]').forEach(function (element) {
       var originalId = element.id;
@@ -115,18 +218,23 @@
       });
     });
 
-    form.querySelectorAll('input[type="radio"]').forEach(function (radio) {
+    form.querySelectorAll('[data-field^="pwr_field_type_"]').forEach(function (radio) {
       radio.name = 'pwr_field_type-' + index;
+    });
+
+    form.querySelectorAll('[data-field^="pwr_field_uber_"]').forEach(function (radio) {
+      radio.name = 'pwr_field_uber-' + index;
     });
 
     var name = field(form, 'pwr_field_name');
     var mobile = field(form, 'pwr_field_mobile');
-    name.autocomplete = 'given-name';
+    name.autocomplete = 'name';
+    name.placeholder = 'Digite seu nome';
     name.required = true;
     mobile.type = 'tel';
     mobile.inputMode = 'tel';
     mobile.autocomplete = 'tel';
-    mobile.placeholder = '(00) 00000-0000';
+    mobile.placeholder = '(DDD) 00000-0000';
     mobile.maxLength = 15;
     mobile.pattern = '\\([0-9]{2}\\) [0-9]{4,5}-[0-9]{4}';
     mobile.required = true;
@@ -137,7 +245,9 @@
     var plate = field(form, 'pwr_field_plate');
     plate.placeholder = 'ABC1D23';
     plate.autocomplete = 'off';
-    plate.required = false;
+    plate.maxLength = 7;
+    plate.pattern = '[A-Z]{3}[0-9][A-Z0-9][0-9]{2}';
+    plate.required = true;
     replaceWithInput(form, 'pwr_field_state', 'Estado');
     replaceWithInput(form, 'pwr_field_city', 'Cidade');
 
@@ -165,13 +275,43 @@
     window.setTimeout(complete, 800);
   }
 
+  function requestQuote(payload) {
+    return fetch(quoteEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (response) {
+      if (!response.ok) throw new Error('Não foi possível enviar a cotação.');
+      return response.json();
+    }).then(function (payload) {
+      if (!payload || payload.success === false || payload.success === 'false') throw new Error('O serviço de envio recusou a solicitação.');
+      return payload;
+    });
+  }
+
+  function addContext(target, quoteId, status) {
+    addIfPresent(target, 'Identificador da cotação', quoteId);
+    addIfPresent(target, 'Status', status);
+    addIfPresent(target, 'Data e horário', getSubmittedAt());
+    addIfPresent(target, 'URL da página', window.location.href);
+    addIfPresent(target, 'Página de origem', document.referrer || 'Acesso direto');
+    Object.keys(getUtmParameters()).forEach(function (label) {
+      addIfPresent(target, label, getUtmParameters()[label]);
+    });
+  }
+
+  function getVehicleType(form) {
+    var selected = form.querySelector('input[name^="pwr_field_type-"]:checked');
+    return selected ? selected.nextElementSibling.textContent.trim() : '';
+  }
+
   function setupForm(form, index) {
+    normalizeLegacyForm(form);
     prepareFields(form, index);
     var formStarted = false;
 
     var step1 = field(form, 'pwr_step_1');
     var step2 = field(form, 'pwr_step_2');
-    var step3 = field(form, 'pwr_step_3');
     var name = field(form, 'pwr_field_name');
     var mobile = field(form, 'pwr_field_mobile');
     var brand = field(form, 'pwr_field_brand');
@@ -188,7 +328,7 @@
           trackEvent('form_start', { form_name: 'cotacao_protecao_veicular', form_location: index === 0 ? 'hero' : 'modal' });
         }
         if (input === mobile) input.value = formatMobile(input.value);
-        if (input === plate) input.value = input.value.toUpperCase();
+        if (input === plate) input.value = formatPlate(input.value);
         markInvalid(input, false);
         setStatus(form, '');
         setWhatsAppFallback(form, '', false);
@@ -203,139 +343,152 @@
     });
 
     field(form, 'pwr_step_1_next').addEventListener('click', function () {
+      if (form.dataset.processing === 'true') return;
       var invalidName = name.value.trim().length < 2;
-      var invalidMobile = mobile.value.replace(/\D/g, '').length < 10;
+      var mobileDigits = getMobileDigits(mobile.value);
+      var invalidMobile = mobileDigits.length !== 10 && mobileDigits.length !== 11;
       markInvalid(name, invalidName);
       markInvalid(mobile, invalidMobile);
 
       if (invalidName || invalidMobile) {
         trackEvent('form_validation_error', { form_name: 'cotacao_protecao_veicular', form_step: 1 });
         setStatus(form, 'Informe seu nome e um WhatsApp válido com DDD para continuar.', 'error');
+        focusInvalid(invalidName ? name : mobile);
         return;
       }
-      trackEvent('form_step_advance', { form_name: 'cotacao_protecao_veicular', form_step: 1 });
-      setStatus(form, '');
-      showStep(step2, step1);
+
+      if (form.dataset.contactCaptured === 'true') {
+        setStatus(form, '');
+        setFormCopy(form, 2);
+        showStep(step2, step1);
+        return;
+      }
+
+      var quoteId = getQuoteId(form);
+      var button = field(form, 'pwr_step_1_next');
+      var originalText = button.textContent;
+      var contactData = {
+        '_subject': 'Cotação iniciada — ' + name.value.trim() + ' — ' + quoteId,
+        '_template': 'table',
+        '_url': window.location.href
+      };
+      addIfPresent(contactData, 'Nome', name.value.trim());
+      addIfPresent(contactData, 'WhatsApp', normalizeMobile(mobile.value));
+      addIfPresent(contactData, 'Aviso', 'Os dados do veículo ainda não foram concluídos.');
+      addContext(contactData, quoteId, 'cotação iniciada');
+
+      form.dataset.processing = 'true';
+      button.disabled = true;
+      button.textContent = 'Salvando seus dados...';
+      setStatus(form, 'Salvando seus dados para continuar...', 'loading');
+      requestQuote(contactData).then(function () {
+        form.dataset.contactCaptured = 'true';
+        form.dataset.processing = 'false';
+        button.disabled = false;
+        button.textContent = originalText;
+        trackEvent('form_contact_completed', { form_name: 'cotacao_protecao_veicular', form_location: index === 0 ? 'hero' : 'modal' });
+        setStatus(form, '');
+        setFormCopy(form, 2);
+        showStep(step2, step1);
+      }).catch(function () {
+        form.dataset.processing = 'false';
+        button.disabled = false;
+        button.textContent = originalText;
+        setStatus(form, 'Não foi possível salvar seus dados agora. Verifique sua conexão e tente novamente.', 'error');
+      });
     });
 
     field(form, 'pwr_step_2_back').addEventListener('click', function () {
       setStatus(form, '');
+      setFormCopy(form, 1);
       showStep(step1, step2);
     });
 
-    field(form, 'pwr_step_2_next').addEventListener('click', function () {
-      var vehicleType = form.querySelector('input[name="pwr_field_type-' + index + '"]:checked');
+    field(form, 'pwr_step_2_go').addEventListener('click', function () {
+      if (form.dataset.processing === 'true' || form.dataset.finalSubmitted === 'true') return;
+      var vehicleType = getVehicleType(form);
       var invalidBrand = brand.value.trim().length < 2;
       var invalidYear = year.value.trim().length !== 4;
       var invalidModel = model.value.trim().length < 2;
-      var plateValue = plate.value.replace(/[^A-Z0-9]/gi, '');
-      var invalidPlate = plateValue.length > 0 && plateValue.length !== 7;
+      var plateValue = formatPlate(plate.value);
+      var invalidPlate = !isValidPlate(plateValue);
+      var invalidState = state.value.trim().length < 2;
+      var invalidCity = city.value.trim().length < 2;
       markInvalid(brand, invalidBrand);
       markInvalid(year, invalidYear);
       markInvalid(model, invalidModel);
       markInvalid(plate, invalidPlate);
-
-      if (!vehicleType || invalidBrand || invalidYear || invalidModel || invalidPlate) {
-        trackEvent('form_validation_error', { form_name: 'cotacao_protecao_veicular', form_step: 2 });
-        setStatus(form, 'Selecione o tipo de veículo e preencha marca, ano e modelo corretamente. A placa é opcional.', 'error');
-        return;
-      }
-      trackEvent('form_step_advance', { form_name: 'cotacao_protecao_veicular', form_step: 2 });
-      setStatus(form, '');
-      showStep(step3, step2);
-    });
-
-    field(form, 'pwr_step_3_back').addEventListener('click', function () {
-      setStatus(form, '');
-      showStep(step2, step3);
-    });
-
-    field(form, 'pwr_step_3_go').addEventListener('click', function () {
-      if (isSubmitting) return;
-
-      var invalidState = state.value.trim().length < 2;
-      var invalidCity = city.value.trim().length < 2;
       markInvalid(state, invalidState);
       markInvalid(city, invalidCity);
 
-      if (invalidState || invalidCity) {
-        trackEvent('form_validation_error', { form_name: 'cotacao_protecao_veicular', form_step: 3 });
-        setStatus(form, 'Informe seu estado e cidade para enviar sua cotação.', 'error');
+      if (!vehicleType || invalidBrand || invalidYear || invalidModel || invalidPlate || invalidState || invalidCity) {
+        trackEvent('form_validation_error', { form_name: 'cotacao_protecao_veicular', form_step: 2 });
+        setStatus(form, 'Preencha todos os dados do veículo, incluindo uma placa válida, para receber sua cotação.', 'error');
+        focusInvalid(!vehicleType ? form.querySelector('input[name^="pwr_field_type-"]') : invalidBrand ? brand : invalidYear ? year : invalidModel ? model : invalidPlate ? plate : invalidState ? state : city);
         return;
       }
-
-      var vehicleType = form.querySelector('input[name="pwr_field_type-' + index + '"]:checked');
-      var sendButton = field(form, 'pwr_step_3_go');
+      plate.value = plateValue;
+      var sendButton = field(form, 'pwr_step_2_go');
       var originalButtonText = sendButton.textContent;
       var details = {
         name: name.value.trim(),
         mobile: mobile.value.trim(),
-        vehicleType: vehicleType.nextElementSibling.textContent.trim(),
+        mobileNormalized: normalizeMobile(mobile.value),
+        vehicleType: vehicleType,
         brand: brand.value.trim(),
         year: year.value.trim(),
         model: model.value.trim(),
-        plate: plate.value.trim(),
+        plate: plateValue,
         state: state.value.trim(),
         city: city.value.trim(),
-        uber: field(form, 'pwr_field_uber').checked ? 'Sim' : 'Não',
-        preferences: Array.prototype.slice.call(form.querySelectorAll('[data-preference]:checked')).map(function (input) { return input.value; })
+        uber: form.querySelector('input[name^="pwr_field_uber-"]:checked').value
       };
+      var quoteId = getQuoteId(form);
       var quoteData = {
-        '_subject': 'Nova cotação pelo site — ' + details.name,
+        '_subject': 'Cotação concluída — ' + details.name + ' — ' + quoteId,
         '_template': 'table',
         '_url': window.location.href
       };
       addIfPresent(quoteData, 'Nome', details.name);
-      addIfPresent(quoteData, 'WhatsApp', details.mobile);
+      addIfPresent(quoteData, 'WhatsApp', details.mobileNormalized);
       addIfPresent(quoteData, 'Tipo de veículo', details.vehicleType);
-      addIfPresent(quoteData, 'Marca/modelo', details.brand + ' ' + details.model);
+      addIfPresent(quoteData, 'Marca', details.brand);
+      addIfPresent(quoteData, 'Modelo', details.model);
       addIfPresent(quoteData, 'Ano', details.year);
       addIfPresent(quoteData, 'Placa', details.plate);
       addIfPresent(quoteData, 'Cidade/UF', details.city + '/' + details.state);
       addIfPresent(quoteData, 'Uso em aplicativo', details.uber);
-      addIfPresent(quoteData, 'O que é mais importante', details.preferences.join(', '));
       addIfPresent(quoteData, 'Origem', 'Landing page Consultor da Proteção');
-      addIfPresent(quoteData, 'Data e horário', getSubmittedAt());
-      var utmParameters = getUtmParameters();
-      Object.keys(utmParameters).forEach(function (label) {
-        addIfPresent(quoteData, label, utmParameters[label]);
-      });
+      addContext(quoteData, quoteId, 'cotação concluída');
       var whatsappUrl = buildWhatsAppUrl(details);
 
-      isSubmitting = true;
+      form.dataset.processing = 'true';
       sendButton.disabled = true;
       sendButton.textContent = 'Registrando sua cotação...';
       setWhatsAppFallback(form, '', false);
       setStatus(form, 'Registrando sua cotação...', 'loading');
 
-      fetch(quoteEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(quoteData)
-      })
-        .then(function (response) {
-          if (!response.ok) throw new Error('Não foi possível enviar a cotação.');
-          return response.json();
-        })
-        .then(function (payload) {
-          if (!payload || payload.success === false || payload.success === 'false') throw new Error('O serviço de envio recusou a solicitação.');
-          trackEvent('lead_form_submit', {
+      requestQuote(quoteData)
+        .then(function () {
+          form.dataset.processing = 'false';
+          form.dataset.finalSubmitted = 'true';
+          trackEvent('generate_lead', {
             form_name: 'cotacao_protecao_veicular',
             page_location: window.location.pathname,
             lead_source: 'website'
           });
           setStatus(form, 'Cotação registrada com sucesso! Estamos direcionando você para o WhatsApp.', 'success');
           sendAdsConversion(function () {
-            trackEvent('whatsapp_redirect', {
+            trackEvent('whatsapp_click', {
               form_name: 'cotacao_protecao_veicular',
               page_location: window.location.pathname,
-              redirect_destination: 'whatsapp'
+              cta_location: 'form_success_redirect'
             });
             window.location.href = whatsappUrl;
           });
         })
         .catch(function () {
-          isSubmitting = false;
+          form.dataset.processing = 'false';
           sendButton.disabled = false;
           sendButton.textContent = originalButtonText;
           setStatus(form, 'Não foi possível registrar sua cotação neste momento. Verifique sua conexão e tente novamente.', 'error');

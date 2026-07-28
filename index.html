@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/images/consultor-da-protecao-favicon.png" type="image/png">
   <link rel="shortcut icon" href="/images/consultor-da-protecao-favicon.png" type="image/png">
-  <title>Cotação de Proteção Veicular | Consultor da Proteção</title>
-  <meta name="description" content="Solicite sua cotação de proteção veicular e conheça opções da APVS, Proauto e Gol Proteção Veicular com atendimento personalizado.">
+  <title>Cotação de Proteção Veicular | Compare Opções</title>
+  <meta name="description" content="Solicite sua cotação de proteção veicular, compare opções da APVS, Proauto e Gol e receba atendimento personalizado pelo WhatsApp.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0759d6">
   <link rel="canonical" href="https://consultordaprotecao.com.br/">
@@ -40,7 +40,7 @@
       }
     }
   </script>
-  <script src="js/cotacao-email.js?v=20260727-benefits-second" defer></script>
+  <script src="js/cotacao-email.js?v=20260728-two-step-quote" defer></script>
 
   <style>
     :root{
@@ -61,7 +61,7 @@
   </style>
   <link rel="stylesheet" href="css/styles.css?v=20260724-mobile-logo">
   <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/consultor-refresh.css?v=20260727-partner-logo-size">
+  <link rel="stylesheet" href="css/consultor-refresh.css?v=20260728-two-step-quote">
 
 </head>
 <body>
@@ -101,8 +101,8 @@
           <!-- Text Banner -->
           <div class="text-banner">
             <span class="hero-eyebrow">Cotação gratuita e sem compromisso</span>
-            <h1>Compare opções e encontre a proteção mais adequada para o seu veículo</h1>
-            <p>Receba uma cotação personalizada, com atendimento direto e opções de proteção para diferentes necessidades.</p>
+            <h1>Receba sua cotação de proteção veicular e compare opções</h1>
+            <p>Informe os dados do seu veículo para receber pelo WhatsApp opções personalizadas de valores, benefícios e condições.</p>
             <ul class="hero-benefits" aria-label="Benefícios da cotação">
               <li>Diferentes opções para comparar</li>
               <li>Assistência 24 horas conforme o plano</li>
@@ -116,25 +116,24 @@
           </div>
 
           <div class="box-call-to-action-form pwr_form">
-            <span>Faça sua cotação de proteção veicular</span>
-            <p class="form-description">Informe seus dados para verificarmos as opções disponíveis para o seu veículo.</p>
+            <span>Vamos começar sua cotação</span>
+            <p class="form-description">Primeiro, informe seus dados de contato para continuar.</p>
             <div class="step" id="pwr_step_1">
-              <p class="form-progress">Etapa 1 de 3</p>
+              <p class="form-progress">Etapa 1 de 2</p>
               <div class="group-form">
                 <label for="pwr_field_name">Como você se chama?</label>
-                <input type="text" id="pwr_field_name">
+                <input type="text" id="pwr_field_name" placeholder="Digite seu nome" autocomplete="name" required>
               </div>
               <div class="group-form">
                 <label for="pwr_field_mobile">Qual é o seu WhatsApp?</label>
-                <input type="text" id="pwr_field_mobile">
+                <input type="tel" id="pwr_field_mobile" placeholder="(DDD) 00000-0000" autocomplete="tel" inputmode="tel" required>
               </div>
               <div class="group-form">
                 <button type="submit" class="button" id="pwr_step_1_next">Continuar minha cotação</button>
               </div>
             </div>
-            <!-- STEP 2 -->
             <div class="step" style="display:none;" id="pwr_step_2">
-              <p class="form-progress">Etapa 2 de 3</p>
+              <p class="form-progress">Etapa 2 de 2</p>
               <div class="group-form">
                 <label for="">Tipo de veículo:</label>
                 <ul>
@@ -168,52 +167,33 @@
                   <select id="pwr_field_model"></select>
                 </div>
                 <div class="group-form two-col">
-                  <label for="pwr_field_plate">Placa (opcional)</label>
-                  <input type="text" id="pwr_field_plate" maxlength="8" autocomplete="off">
+                  <label for="pwr_field_plate">Qual é a placa do veículo?</label>
+                  <input type="text" id="pwr_field_plate" maxlength="7" autocomplete="off" required>
+                  <small class="form-field-help">A placa é necessária para identificar o veículo e consultar as opções disponíveis.</small>
                 </div>
               </div>
-              <div class="row-flexbox">
-                <button type="submit" class="back" id="pwr_step_2_back"><i class="icon-left"></i></button>
-                <button class="button" id="pwr_step_2_next">Continuar minha cotação</button>
-              </div>
-            </div>
-
-            <div class="step" style="display:none;" id="pwr_step_3">
-              <p class="form-progress">Etapa 3 de 3</p>
               <div class="group-form">
-                <label for="pwr_field_state">Moro no Estado:</label>
+                <label for="pwr_field_state">Em qual estado o veículo está?</label>
                 <select id="pwr_field_state"></select>
               </div>
               <div class="group-form">
-                <label for="">Na cidade:</label>
+                <label for="pwr_field_city">Em qual cidade o veículo está?</label>
                 <select id="pwr_field_city"></select>
               </div>
-              <div class="group-form">
-                <label for="">Você usa o seu veículo em Táxi ou Aplicativo?</label>
-                <div class="box-input">
-                  <input id="pwr_field_uber" type="checkbox" class="option-input checkbox">
-                  <label for="pwr_field_uber">Sim <small>(deixe desmarcado se não usar)</small></label>
+              <div class="group-form app-usage-group">
+                <label>O veículo é utilizado em aplicativo?</label>
+                <div class="box-input" role="radiogroup" aria-label="Uso do veículo em aplicativo">
+                  <input id="pwr_field_uber_no" type="radio" class="option-input radio" name="pwr_field_uber" value="Não" checked>
+                  <label for="pwr_field_uber_no">Não</label>
+                  <input id="pwr_field_uber_yes" type="radio" class="option-input radio" name="pwr_field_uber" value="Sim">
+                  <label for="pwr_field_uber_yes">Sim</label>
                 </div>
               </div>
-              <fieldset class="form-preferences">
-                <legend>O que é mais importante para você? <small>(opcional)</small></legend>
-                <div class="preference-grid">
-                  <label><input type="checkbox" value="Menor valor mensal" data-preference> Menor valor mensal</label>
-                  <label><input type="checkbox" value="Proteção mais completa" data-preference> Proteção mais completa</label>
-                  <label><input type="checkbox" value="Assistência 24 horas" data-preference> Assistência 24 horas</label>
-                  <label><input type="checkbox" value="Proteção para terceiros" data-preference> Proteção para terceiros</label>
-                  <label><input type="checkbox" value="Carro reserva" data-preference> Carro reserva</label>
-                  <label><input type="checkbox" value="Proteção para vidros" data-preference> Proteção para vidros</label>
-                  <label><input type="checkbox" value="Proteção para veículo de aplicativo" data-preference> Proteção para veículo de aplicativo</label>
-                  <label><input type="checkbox" value="Ainda não sei e quero orientação" data-preference> Ainda não sei e quero orientação</label>
-                </div>
-              </fieldset>
-              
               <div class="row-flexbox">
-                <button type="submit" class="back" id="pwr_step_3_back"><i class="icon-left"></i></button>
-                <button class="button" id="pwr_step_3_go">Receber cotação no WhatsApp</button>
+                <button type="button" class="back" id="pwr_step_2_back"><i class="icon-left"></i></button>
+                <button type="button" class="button" id="pwr_step_2_go">Receber minha cotação no WhatsApp</button>
               </div>
-              <p class="form-whatsapp-note">Seus dados serão registrados e você será direcionado ao WhatsApp para continuar o atendimento.</p>
+              <p class="form-whatsapp-note">Cotação gratuita, sem compromisso e com atendimento direto.</p>
             </div>
 
             <p class="form-status" role="status" aria-live="polite"></p>
@@ -229,15 +209,15 @@
     <section class="partners-section" id="empresas" aria-labelledby="partners-title">
       <div class="container">
         <div class="section-intro section-intro-center">
-          <h2 id="partners-title">Trabalho com diferentes opções de proteção veicular</h2>
-          <p>Analiso o seu veículo, sua rotina e os benefícios que você procura para apresentar a alternativa mais adequada entre as opções disponíveis.</p>
+          <h2 id="partners-title">Compare opções antes de escolher</h2>
+          <p>Analiso seu veículo, sua rotina, seu orçamento e os benefícios que você procura para apresentar as opções mais alinhadas ao seu perfil.</p>
         </div>
         <div class="partner-grid" aria-label="Empresas com as quais Felipe trabalha">
           <div class="partner-logo-card partner-brand-card"><img class="partner-logo partner-logo-apvs" src="images/logo-apvs.png" alt="APVS" width="317" height="139" loading="lazy" decoding="async"></div>
           <div class="partner-logo-card partner-brand-card"><img class="partner-logo partner-logo-proauto" src="images/logo-proauto.svg" alt="Proauto" width="130" height="31" loading="lazy" decoding="async"></div>
           <div class="partner-logo-card partner-brand-card" aria-label="Gol Proteção Veicular"><img class="partner-logo partner-logo-gol" src="images/logo-gol-plus.png" alt="Gol Proteção Veicular" width="1024" height="1024" loading="lazy" decoding="async"></div>
         </div>
-        <p class="section-note">Benefícios, valores, condições e regulamentos variam conforme a empresa e o plano escolhido.</p>
+        <p class="section-note">Valores, benefícios, limites, condições e regulamentos podem variar conforme a empresa, o veículo e o plano escolhido.</p>
       </div>
     </section>
 
@@ -247,13 +227,13 @@
           <img src="images/felipe-dos-santos-martins-consultor-protecao-veicular.jpeg" alt="Felipe Martins, consultor de proteção veicular" width="1254" height="1254" loading="lazy" decoding="async">
         </div>
         <div class="consultant-copy">
-          <span class="section-kicker">Atendimento direto com o consultor</span>
-          <h2 id="consultant-title">Mais do que uma cotação, você recebe atendimento personalizado</h2>
-          <p>Meu nome é Felipe Martins e atuo como consultor de proteção veicular. Meu papel é entender o que você procura, explicar as diferenças entre as opções disponíveis e ajudar você a tomar uma decisão com mais clareza.</p>
-          <p>Em vez de apresentar a mesma alternativa para todos, considero o veículo, a rotina, o orçamento e os benefícios informados por cada associado.</p>
+          <span class="section-kicker">Atendimento humano do início ao fim</span>
+          <h2 id="consultant-title">Escolha com orientação, não no escuro</h2>
+          <p>Meu nome é Felipe Martins e atuo como consultor de proteção veicular. Entendo o que você precisa, comparo as opções disponíveis e explico as diferenças para ajudar você a tomar uma decisão mais segura.</p>
+          <p>Em vez de apresentar a mesma alternativa para todos, considero seu veículo, sua rotina, seu orçamento e os benefícios que fazem sentido para você.</p>
           <ul class="consultant-highlights">
             <li>Atendimento direto com o consultor</li>
-            <li>Comparação entre as opções disponíveis</li>
+            <li>Comparação de valores e benefícios</li>
             <li>Explicação clara das condições</li>
             <li>Suporte durante o processo de cotação</li>
           </ul>
@@ -265,13 +245,13 @@
     <section class="steps-section" id="como-funciona" aria-labelledby="steps-title">
       <div class="container">
         <div class="section-intro section-intro-center">
-          <span class="section-kicker">Uma escolha mais clara</span>
-          <h2 id="steps-title">Como funciona sua cotação</h2>
+          <span class="section-kicker">Simples, gratuito e sem compromisso</span>
+          <h2 id="steps-title">Sua cotação em 3 passos</h2>
         </div>
         <ol class="consulting-steps">
-          <li><span>1</span><h3>Você informa os dados do veículo</h3><p>Preencha os dados básicos e conte o que considera mais importante na proteção.</p></li>
-          <li><span>2</span><h3>Eu verifico as opções disponíveis</h3><p>Analiso alternativas da APVS, Proauto e Gol Proteção Veicular que se aproximam da sua necessidade.</p></li>
-          <li><span>3</span><h3>Você recebe sua cotação</h3><p>Apresento valores, benefícios e condições para ajudar você a avaliar qual opção faz mais sentido.</p></li>
+          <li><span>1</span><h3>Informe seus dados</h3><p>Preencha seu nome e WhatsApp para iniciar a solicitação.</p></li>
+          <li><span>2</span><h3>Envie os dados do veículo</h3><p>Informe a placa e os dados necessários para que a cotação possa ser preparada.</p></li>
+          <li><span>3</span><h3>Receba as opções pelo WhatsApp</h3><p>Compare valores, benefícios e condições com atendimento direto do consultor.</p></li>
         </ol>
       </div>
     </section>
@@ -281,8 +261,8 @@
       <div class="container">
 
         <div class="title-section">
-          <h2 id="benefits-title">Proteção para diferentes imprevistos</h2>
-          <p>Conheça benefícios que podem estar disponíveis conforme a empresa e o plano escolhido.</p>
+          <h2 id="benefits-title">Proteção para os imprevistos que mais pesam no bolso</h2>
+          <p>Conheça alguns dos benefícios que podem estar disponíveis de acordo com a empresa, o veículo e o plano escolhido.</p>
         </div>
 
         <ul class="lists-box">
@@ -290,7 +270,7 @@
             <i class="icon-icone-furto-roubo"></i>
             <div class="text-list-box">
               <span>Roubo e furto</span>
-              <p>Opções de proteção para situações de roubo ou furto, conforme as condições previstas no regulamento.</p>
+              <p>Opções de proteção financeira para eventos de roubo ou furto previstos no regulamento.</p>
             </div>
           </li>
 
@@ -298,21 +278,21 @@
             <i class="icon-icone-colisoes"></i>
             <div class="text-list-box">
               <span>Colisão</span>
-              <p>Possibilidade de suporte para reparos após colisões, conforme o plano contratado.</p>
+              <p>Possibilidade de suporte para reparos após colisões, conforme as condições do plano.</p>
             </div>
           </li>
           <li>
             <i class="icon-icone-perda-total"></i>
             <div class="text-list-box">
               <span>Perda total</span>
-              <p>Possibilidade de ressarcimento conforme o evento, o plano e as regras da empresa escolhida.</p>
+              <p>Possibilidade de ressarcimento quando o evento atende aos critérios da opção contratada.</p>
             </div>
           </li>
           <li>
             <i class="icon-icone-incendio"></i>
             <div class="text-list-box">
               <span>Danos a terceiros</span>
-              <p>Opções que podem ajudar em prejuízos causados a outros veículos, dentro dos limites contratados.</p>
+              <p>Opções de amparo para danos causados a outros veículos, dentro dos limites contratados.</p>
             </div>
           </li>
           <li>
@@ -326,36 +306,34 @@
             <i class="icon-icone-brasil"></i>
             <div class="text-list-box">
               <span>Assistência 24 horas</span>
-              <p>Serviços de assistência disponíveis conforme o plano e a região de atendimento.</p>
+              <p>Serviços de assistência para diferentes situações, conforme plano, limites e região de atendimento.</p>
             </div>
           </li>
           <li>
             <i class="icon-icone-carro-reserva"></i>
             <div class="text-list-box">
               <span>Carro reserva</span>
-              <p>Disponibilidade de carro reserva conforme o plano, o evento e as condições contratadas.</p>
+              <p>Disponibilidade de veículo reserva em situações previstas nas condições contratadas.</p>
             </div>
           </li>
           <li>
             <i class="icon-icone-colisoes"></i>
             <div class="text-list-box">
-              <span>Vidros</span>
-              <p>Serviços ou proteção para vidros conforme as condições do plano escolhido.</p>
+              <span>Proteção para vidros</span>
+              <p>Algumas opções podem incluir serviços para vidros, conforme as regras do plano escolhido.</p>
             </div>
           </li>
           <li class="benefit-extra" aria-hidden="true">
             <i class="icon-icone-vidros"></i>
             <div class="text-list-box">
-              <span>Cobertura para vidros</span>
-              <p>
-                Caso aconteça algum dano com seus vidros, podemos substituí-lo por outro novinho.
-              </p>
+              <span>Veículos de aplicativo</span>
+              <p>Consulte opções disponíveis para veículos utilizados em aplicativo, conforme análise e regras da empresa.</p>
             </div>
           </li>
 
         </ul>
         <div class="row-flexbox-center">
-          <a class="button-modal" href="#cotacao" data-scroll-form data-track-cta="benefits">Quero fazer minha cotação</a>
+          <a class="button-modal" href="#cotacao" data-scroll-form data-track-cta="benefits">Quero receber minha cotação</a>
         </div>
         <p class="benefits-disclaimer">A disponibilidade, os limites e as condições dependem da empresa, do veículo, do plano contratado e do regulamento vigente.</p>
       </div>
@@ -366,8 +344,8 @@
     <div class="section-list">
       <div class="container">
         <div class="title-section">
-          <span>Opções com assistência 24 horas</span>
-          <p>Dependendo da empresa e do plano escolhido, o associado pode contar com serviços de assistência para diferentes situações.</p>
+          <span>Assistência para quando você mais precisa</span>
+          <p>Dependendo da opção escolhida, você pode contar com serviços de apoio para diferentes imprevistos.</p>
         </div>
 
         <ul class="lists">
@@ -388,7 +366,7 @@
             </div>
             <div class="description">
               <p>
-                Assistência com reboque em casos previstos no plano, respeitando os limites contratados.
+                Auxílio quando o veículo não consegue continuar rodando, conforme os limites contratados.
               </p>
             </div>
           </li>
@@ -399,7 +377,7 @@
               <span>Chaveiro</span>
             </div>
             <div class="description">
-              <p>Serviço de chaveiro disponível conforme as condições da opção escolhida.
+              <p>Suporte em situações relacionadas às chaves do veículo, conforme as condições do plano.
               </p>
             </div>
           </li>
@@ -411,7 +389,7 @@
             </div>
             <div class="description">
               <p>
-                Suporte para situações de pneu furado, conforme as regras do plano.
+                Ajuda em caso de pneu furado ou necessidade de substituição emergencial.
               </p>
             </div>
           </li>
@@ -423,7 +401,7 @@
             </div>
             <div class="description">
               <p>
-                Algumas opções podem oferecer auxílio em caso de falta de combustível.
+                Algumas opções oferecem auxílio quando o veículo fica sem combustível.
               </p>
             </div>
           </li>
@@ -435,7 +413,7 @@
             </div>
             <div class="description">
               <p>
-                Determinados planos podem disponibilizar transporte emergencial, conforme limites e condições.
+                Possibilidade de transporte emergencial em situações previstas no plano.
               </p>
             </div>
           </li>
@@ -447,7 +425,7 @@
             </div>
             <div class="description">
               <p>
-                Algumas opções podem incluir hospedagem em situações previstas no regulamento.
+                Algumas opções podem oferecer hospedagem em situações previstas no regulamento.
               </p>
             </div>
           </li>
@@ -461,8 +439,8 @@
     <section class="trust-section" aria-labelledby="trust-title">
       <div class="container">
         <div class="section-intro section-intro-center">
-          <span class="section-kicker">Benefícios adicionais</span>
-          <h2 id="trust-title">Outras possibilidades para o seu plano</h2>
+          <span class="section-kicker">Personalize de acordo com sua necessidade</span>
+          <h2 id="trust-title">Outras opções que podem fazer parte da sua proteção</h2>
         </div>
         <ul class="trust-points">
           <li>Proteção para vidros</li>
@@ -477,18 +455,17 @@
       <div class="container faq-layout">
         <div class="section-intro">
           <span class="section-kicker">Dúvidas frequentes</span>
-          <h2 id="faq-title">Informações para decidir com clareza</h2>
-          <p>Antes de solicitar sua cotação de proteção veicular, veja respostas para as dúvidas mais comuns.</p>
+          <h2 id="faq-title">Tudo o que você precisa saber antes de solicitar sua cotação</h2>
         </div>
         <div class="faq-list">
-          <details><summary aria-expanded="false" aria-controls="faq-answer-1">Com quais empresas você trabalha?</summary><div id="faq-answer-1"><p>Trabalho com APVS, Proauto e Gol Proteção Veicular. As opções apresentadas consideram o veículo e as necessidades informadas pelo associado.</p></div></details>
-          <details><summary aria-expanded="false" aria-controls="faq-answer-2">Você sempre indica a opção mais barata?</summary><div id="faq-answer-2"><p>Não necessariamente. O objetivo é avaliar valor, benefícios, limites, condições e adequação ao perfil informado.</p></div></details>
-          <details><summary aria-expanded="false" aria-controls="faq-answer-3">Os benefícios são iguais em todas as empresas?</summary><div id="faq-answer-3"><p>Não. Benefícios, limites, participação, área de atendimento e regras podem variar conforme a empresa e o plano escolhido.</p></div></details>
-          <details><summary aria-expanded="false" aria-controls="faq-answer-4">A cotação é gratuita?</summary><div id="faq-answer-4"><p>Sim. Você pode solicitar sua cotação e conhecer as opções sem compromisso.</p></div></details>
-          <details><summary aria-expanded="false" aria-controls="faq-answer-5">Existe assistência 24 horas em todo o Brasil?</summary><div id="faq-answer-5"><p>A abrangência depende da empresa, do plano, do serviço solicitado e das condições previstas no regulamento.</p></div></details>
-          <details><summary aria-expanded="false" aria-controls="faq-answer-6">Quando a proteção começa a valer?</summary><div id="faq-answer-6"><p>O início depende das etapas de adesão, vistoria, aprovação, pagamento e demais condições da empresa escolhida.</p></div></details>
-          <details><summary aria-expanded="false" aria-controls="faq-answer-7">O valor é igual para todos?</summary><div id="faq-answer-7"><p>Não. O valor pode variar conforme veículo, ano, modelo, localização, utilização e benefícios selecionados.</p></div></details>
-          <details><summary aria-expanded="false" aria-controls="faq-answer-8">O que acontece depois que eu preencher?</summary><div id="faq-answer-8"><p>Os dados são registrados para preparação da cotação e você é direcionado ao WhatsApp para continuar o atendimento com Felipe.</p></div></details>
+          <details><summary aria-expanded="false" aria-controls="faq-answer-1">Com quais empresas você trabalha?</summary><div id="faq-answer-1"><p>Trabalho com opções da APVS, Proauto e Gol Proteção Veicular. A análise considera o veículo, o perfil e as necessidades informadas durante a cotação.</p></div></details>
+          <details><summary aria-expanded="false" aria-controls="faq-answer-2">A cotação é gratuita?</summary><div id="faq-answer-2"><p>Sim. A cotação é gratuita e sem compromisso de contratação.</p></div></details>
+          <details><summary aria-expanded="false" aria-controls="faq-answer-3">Por que a placa é necessária?</summary><div id="faq-answer-3"><p>A placa é utilizada para identificar corretamente o veículo e preparar uma cotação de acordo com suas características.</p></div></details>
+          <details><summary aria-expanded="false" aria-controls="faq-answer-4">Por que fazer a cotação com um consultor?</summary><div id="faq-answer-4"><p>Porque você recebe orientação para comparar valores, benefícios, limites e condições antes de tomar uma decisão.</p></div></details>
+          <details><summary aria-expanded="false" aria-controls="faq-answer-5">Você sempre indica a opção mais barata?</summary><div id="faq-answer-5"><p>Não necessariamente. O objetivo é encontrar um equilíbrio entre valor, benefícios, condições e adequação ao seu perfil.</p></div></details>
+          <details><summary aria-expanded="false" aria-controls="faq-answer-6">Os benefícios são iguais em todas as empresas?</summary><div id="faq-answer-6"><p>Não. Benefícios, limites, participação, área de atendimento e regras podem variar conforme a empresa e o plano escolhido.</p></div></details>
+          <details><summary aria-expanded="false" aria-controls="faq-answer-7">Quando a proteção começa a valer?</summary><div id="faq-answer-7"><p>O início depende das etapas de adesão, vistoria, aprovação, pagamento e demais condições da empresa escolhida.</p></div></details>
+          <details><summary aria-expanded="false" aria-controls="faq-answer-8">O que acontece depois que eu preencher o formulário?</summary><div id="faq-answer-8"><p>Seus dados serão registrados para preparação da cotação e você será direcionado ao WhatsApp para continuar o atendimento diretamente com Felipe.</p></div></details>
         </div>
       </div>
     </section>
@@ -497,13 +474,13 @@
     <div class="section-call-to-action">
 
       <div class="container">
-        <h2>Descubra quanto custa proteger seu veículo</h2>
-        <p>Solicite sua cotação e conheça as opções disponíveis para o seu perfil.</p>
+        <h2>Compare as opções e escolha com mais segurança</h2>
+        <p>Informe os dados do seu veículo e receba uma cotação personalizada de acordo com seu perfil e suas necessidades.</p>
         <div class="final-actions">
-          <a class="final-primary" href="#cotacao" data-scroll-form data-track-cta="final_cta">Quero fazer minha cotação</a>
-          <a class="final-secondary" href="https://wa.me/5519998766431?text=Ol%C3%A1%2C%20Felipe%21%20Vim%20pelo%20site%20e%20gostaria%20de%20receber%20uma%20cota%C3%A7%C3%A3o%20de%20prote%C3%A7%C3%A3o%20veicular." target="_blank" rel="noopener noreferrer" data-track-whatsapp="final_cta" aria-label="Chamar no WhatsApp"><i class="icon-whatsapp" aria-hidden="true"></i>Chamar no WhatsApp</a>
+          <a class="final-primary" href="#cotacao" data-scroll-form data-track-cta="final_cta">Quero receber minha cotação</a>
+          <a class="final-secondary" href="https://wa.me/5519998766431?text=Ol%C3%A1%2C%20Felipe%21%20Vim%20pelo%20site%20e%20gostaria%20de%20receber%20uma%20cota%C3%A7%C3%A3o%20de%20prote%C3%A7%C3%A3o%20veicular." target="_blank" rel="noopener noreferrer" data-track-whatsapp="final_cta" aria-label="Prefiro falar no WhatsApp"><i class="icon-whatsapp" aria-hidden="true"></i>Prefiro falar no WhatsApp</a>
         </div>
-        <small>Cotação gratuita e sem compromisso.</small>
+        <small>Cotação gratuita, sem compromisso e com atendimento direto.</small>
       </div>
     </div>
     <!-- Fim da sessão Call to Action -->
@@ -533,10 +510,10 @@
         <footer class="footer-branding">
           <div>
             <img src="images/consultor-da-protecao-logo-transparent.png" alt="Consultor da Proteção" width="1102" height="447" loading="lazy" decoding="async">
-            <p>Cotação de proteção veicular com orientação personalizada.</p>
+            <p>Cotação de proteção veicular com comparação de opções e atendimento personalizado.</p>
           </div>
           <div class="footer-meta">
-            <p class="footer-legal">APVS, Proauto e Gol Proteção Veicular são marcas independentes. Benefícios, condições e regulamentos variam conforme a opção escolhida.</p>
+            <p class="footer-legal">APVS, Proauto e Gol Proteção Veicular são marcas independentes. Benefícios, condições, limites e regulamentos variam conforme a opção escolhida.</p>
             <nav class="footer-links" aria-label="Informações legais"><a href="privacidade.html">Política de Privacidade</a><a href="termos.html">Termos de Uso</a></nav>
           </div>
         </footer>
