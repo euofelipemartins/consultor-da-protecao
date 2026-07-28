@@ -161,53 +161,6 @@
     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  function legacyField(form, id) {
-    return form.querySelector('#' + id);
-  }
-
-  function normalizeLegacyForm(form) {
-    var legacyStep3 = legacyField(form, 'pwr_step_3');
-    if (!legacyStep3) return;
-
-    var step1 = legacyField(form, 'pwr_step_1');
-    var step2 = legacyField(form, 'pwr_step_2');
-    var step2Action = legacyField(form, 'pwr_step_2_next');
-    var state = legacyField(form, 'pwr_field_state');
-    var city = legacyField(form, 'pwr_field_city');
-    var uber = legacyField(form, 'pwr_field_uber');
-    var plate = legacyField(form, 'pwr_field_plate');
-    var actionRow = step2Action.closest('.row-flexbox');
-
-    step1.querySelector('.form-progress').textContent = 'Etapa 1 de 2';
-    step2.querySelector('.form-progress').textContent = 'Etapa 2 de 2';
-    step2Action.id = 'pwr_step_2_go';
-    step2Action.textContent = 'Receber minha cotação no WhatsApp';
-
-    var stateGroup = state.closest('.group-form');
-    var cityGroup = city.closest('.group-form');
-    var uberGroup = uber.closest('.group-form');
-    stateGroup.querySelector('label').textContent = 'Em qual estado o veículo está?';
-    stateGroup.querySelector('label').htmlFor = 'pwr_field_state';
-    cityGroup.querySelector('label').textContent = 'Em qual cidade o veículo está?';
-    cityGroup.querySelector('label').htmlFor = 'pwr_field_city';
-    uberGroup.classList.add('app-usage-group');
-    uberGroup.innerHTML = '<label>O veículo é utilizado em aplicativo?</label><div class="box-input" role="radiogroup" aria-label="Uso do veículo em aplicativo"><input id="pwr_field_uber_no" type="radio" class="option-input radio" name="pwr_field_uber" value="Não" checked><label for="pwr_field_uber_no">Não</label><input id="pwr_field_uber_yes" type="radio" class="option-input radio" name="pwr_field_uber" value="Sim"><label for="pwr_field_uber_yes">Sim</label></div>';
-
-    var plateGroup = plate.closest('.group-form');
-    plateGroup.querySelector('label').textContent = 'Qual é a placa do veículo?';
-    plateGroup.querySelector('label').htmlFor = 'pwr_field_plate';
-    var plateHelp = document.createElement('small');
-    plateHelp.className = 'form-field-help';
-    plateHelp.textContent = 'A placa é necessária para identificar o veículo e consultar as opções disponíveis.';
-    plateGroup.appendChild(plateHelp);
-
-    step2.insertBefore(stateGroup, actionRow);
-    step2.insertBefore(cityGroup, actionRow);
-    step2.insertBefore(uberGroup, actionRow);
-    legacyStep3.remove();
-    setFormCopy(form, 1);
-  }
-
   function prepareFields(form, index) {
     form.querySelectorAll('[id]').forEach(function (element) {
       var originalId = element.id;
@@ -306,7 +259,6 @@
   }
 
   function setupForm(form, index) {
-    normalizeLegacyForm(form);
     prepareFields(form, index);
     var formStarted = false;
 
@@ -325,7 +277,7 @@
       input.addEventListener('input', function () {
         if (!formStarted) {
           formStarted = true;
-          trackEvent('form_start', { form_name: 'cotacao_protecao_veicular', form_location: index === 0 ? 'hero' : 'modal' });
+          trackEvent('form_start', { form_name: 'cotacao_protecao_veicular', form_location: 'hero' });
         }
         if (input === mobile) input.value = formatMobile(input.value);
         if (input === plate) input.value = formatPlate(input.value);
@@ -386,7 +338,7 @@
         form.dataset.processing = 'false';
         button.disabled = false;
         button.textContent = originalText;
-        trackEvent('form_contact_completed', { form_name: 'cotacao_protecao_veicular', form_location: index === 0 ? 'hero' : 'modal' });
+        trackEvent('form_contact_completed', { form_name: 'cotacao_protecao_veicular', form_location: 'hero' });
         setStatus(form, '');
         setFormCopy(form, 2);
         showStep(step2, step1);

@@ -72,7 +72,7 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 .hero-secondary i, .outline-cta i, .final-secondary i { color: var(--cp-green); font-size: 2.2rem; }
 .hero-microcopy { display: block; margin-top: 15px; color: var(--cp-slate-700); font-size: 1.3rem; }
 
-.banner .container header .box-call-to-action-form, .modal-content .box-call-to-action-form {
+.banner .container header .box-call-to-action-form {
   max-width: none !important;
   width: 100%;
   margin: 0 !important;
@@ -82,12 +82,12 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
   background: var(--cp-white);
   box-shadow: var(--cp-shadow);
 }
-.banner .container header .box-call-to-action-form > span, .modal-content .box-call-to-action-form > span { display: block; margin: 0 0 8px; color: var(--cp-blue-950); font-family: 'bold', Arial, sans-serif; font-size: 2.1rem; line-height: 1.2; text-align: left; }
+.banner .container header .box-call-to-action-form > span { display: block; margin: 0 0 8px; color: var(--cp-blue-950); font-family: 'bold', Arial, sans-serif; font-size: 2.1rem; line-height: 1.2; text-align: left; }
 .form-description { margin: 0 0 18px; color: var(--cp-slate-700); font-size: 1.4rem; line-height: 1.35; }
 .form-progress { margin: 0 0 12px; color: var(--cp-blue-700); font-family: 'bold', Arial, sans-serif; font-size: 1.25rem; }
 .form-field-help { display: block; margin-top: 7px; color: var(--cp-slate-700); font-size: 1.15rem; line-height: 1.35; }
 .banner .container header .box-call-to-action-form .group-form { margin-bottom: 13px; }
-.banner .container header .box-call-to-action-form .group-form label, .modal-content .group-form label { color: var(--cp-slate-900); font-family: 'bold', Arial, sans-serif; font-size: 1.35rem; }
+.banner .container header .box-call-to-action-form .group-form label { color: var(--cp-slate-900); font-family: 'bold', Arial, sans-serif; font-size: 1.35rem; }
 .box-call-to-action-form input, .box-call-to-action-form select { min-height: 46px; margin-top: 6px; border: 1px solid #bfd1ea; border-radius: 8px; color: var(--cp-slate-900); font-family: 'medium', Arial, sans-serif; font-size: 1.55rem; }
 .box-call-to-action-form input:focus, .box-call-to-action-form select:focus { border-color: var(--cp-blue-700); box-shadow: 0 0 0 3px rgba(7, 89, 214, .12); }
 .box-call-to-action-form .button { min-height: 48px; margin-top: 12px; border-radius: 9px; background: var(--cp-blue-700); font-size: 1.55rem; }
@@ -113,13 +113,6 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 .box-call-to-action-form .box-input { height: auto; min-height: 48px; border-color: #bfd1ea; border-radius: 8px; }
 .box-call-to-action-form .app-usage-group .box-input { gap: 8px; }
 .box-call-to-action-form .app-usage-group .box-input label { margin: 0 10px 0 0; }
-.box-call-to-action-form input.option-input.checkbox { accent-color: var(--cp-blue-700); }
-.form-preferences { margin: 16px 0 0; padding: 0; border: 0; }
-.form-preferences legend { margin: 0 0 9px; color: var(--cp-slate-900); font-family: 'bold', Arial, sans-serif; font-size: 1.35rem; }
-.form-preferences legend small { color: var(--cp-slate-700); font-family: 'regular', Arial, sans-serif; }
-.preference-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-.preference-grid label { min-height: 38px; display: flex; align-items: center; gap: 6px; padding: 7px 8px; border: 1px solid var(--cp-slate-200); border-radius: 7px; color: var(--cp-slate-900); font-family: 'medium', Arial, sans-serif; font-size: 1.2rem !important; line-height: 1.25; }
-.preference-grid input { width: 16px !important; min-width: 16px !important; height: 16px !important; min-height: 16px !important; margin: 0 !important; accent-color: var(--cp-blue-700); }
 
 .partners-section, .consultant-section, .steps-section, .section-boxs, .trust-section, .faq-section { padding: clamp(58px, 8vw, 96px) 0; }
 .partners-section { background: var(--cp-white); }
@@ -218,8 +211,6 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
 .footer-links { display: flex; justify-content: flex-end; gap: 16px; }
 .footer-links a { color: var(--cp-white); font-family: 'medium', Arial, sans-serif; font-size: 1.3rem; text-decoration: underline; text-underline-offset: 3px; }
 
-.modal-content { padding: 18px !important; border: 0; background: transparent; }
-.modal-content .box-call-to-action-form { padding: 25px !important; }
 .floating-whatsapp { right: 24px; bottom: 24px; width: 58px; height: 58px; background: linear-gradient(135deg, #32d878, #16a957); }
 .floating-whatsapp::before { display: none; }
 .floating-whatsapp i { font-size: 3.2rem; }
@@ -250,9 +241,7 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
   .hero-actions { justify-content: center; }
   .banner .container header .box-call-to-action-form { max-width: 510px !important; }
   .box-call-to-action-form input, .box-call-to-action-form select, .box-call-to-action-form textarea { min-height: 50px; font-size: 16px !important; }
-  .modal-content .box-call-to-action-form input, .modal-content .box-call-to-action-form select, .modal-content .box-call-to-action-form textarea { font-size: 16px !important; }
   .box-call-to-action-form .button, .box-call-to-action-form .back { min-height: 50px; font-size: 16px; }
-  .preference-grid { grid-template-columns: 1fr; }
   .faq-list summary { min-height: 56px; display: flex; align-items: center; }
   .partners-section, .consultant-section, .steps-section, .section-boxs, .faq-section { padding: 58px 0; }
   .trust-section { padding: 58px 0; }
@@ -280,8 +269,8 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
   .hero-primary, .hero-secondary { width: 100%; }
   .hero-primary, .hero-secondary, .final-primary, .final-secondary { min-height: 52px; font-size: 1.55rem; }
   .hero-microcopy { text-align: center; }
-  .banner .container header .box-call-to-action-form, .modal-content .box-call-to-action-form { padding: 21px !important; }
-  .banner .container header .box-call-to-action-form > span, .modal-content .box-call-to-action-form > span { font-size: 1.95rem; }
+  .banner .container header .box-call-to-action-form { padding: 21px !important; }
+  .banner .container header .box-call-to-action-form > span { font-size: 1.95rem; }
   .box-call-to-action-form .group-form ul { gap: 6px; }
   .box-call-to-action-form .group-form li { width: calc(33.333% - 4px); padding: 0 6px; }
   .box-call-to-action-form .group-form li label { font-size: 1.25rem; }
@@ -319,9 +308,9 @@ body :focus-visible { outline: 3px solid var(--cp-blue-500); outline-offset: 3px
   .banner .container header .text-banner > p { font-size: 1.7rem; line-height: 1.43; }
   .hero-benefits { gap: 10px; margin: 22px auto; }
   .hero-benefits li { font-size: 1.42rem; }
-  .banner .container header .box-call-to-action-form, .modal-content .box-call-to-action-form { padding: 18px !important; border-radius: 15px !important; }
-  .banner .container header .box-call-to-action-form > span, .modal-content .box-call-to-action-form > span { font-size: 1.8rem; }
-  .banner .container header .box-call-to-action-form > span::after, .modal-content .box-call-to-action-form > span::after { font-size: 1.35rem; }
+  .banner .container header .box-call-to-action-form { padding: 18px !important; border-radius: 15px !important; }
+  .banner .container header .box-call-to-action-form > span { font-size: 1.8rem; }
+  .banner .container header .box-call-to-action-form > span::after { font-size: 1.35rem; }
   .box-call-to-action-form .group-form li { min-height: 50px; }
   .box-call-to-action-form .group-form li label { font-size: 1.2rem; }
   .section-intro h2, .consultant-copy h2, .section-boxs .title-section h2, .faq-section h2, .section-call-to-action h2 { font-size: 3rem; }
