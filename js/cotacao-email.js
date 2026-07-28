@@ -3,7 +3,6 @@
 
   var recipient = 'felipe@consultordaprotecao.com.br';
   var quoteEndpoint = 'https://formsubmit.co/ajax/' + recipient;
-  var adsConversion = 'AW-17928910662/ZSiYCOTqlNYcEMbuleVC';
   var whatsappNumber = '5519998766431';
   function field(form, name) {
     return form.querySelector('[data-field="' + name + '"]');
@@ -12,6 +11,16 @@
   function trackEvent(eventName, details) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({ event: eventName }, details || {}));
+  }
+
+  function trackQuoteSuccess(form, eventName, flagName, quoteId) {
+    if (form.dataset[flagName] === 'true') return;
+    form.dataset[flagName] = 'true';
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: eventName,
+      lead_id: String(quoteId)
+    });
   }
 
   function setStatus(form, message, state) {
@@ -66,6 +75,7 @@
       var value = params.get('utm_' + name);
       if (value) utms['UTM ' + name.charAt(0).toUpperCase() + name.slice(1)] = value;
     });
+    if (params.get('gclid')) utms.GCLID = params.get('gclid');
     return utms;
   }
 
@@ -209,25 +219,6 @@
     });
   }
 
-  function sendAdsConversion(onComplete) {
-    var completed = false;
-    function complete() {
-      if (completed) return;
-      completed = true;
-      onComplete();
-    }
-
-    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-    window.gtag('event', 'conversion', {
-      send_to: adsConversion,
-      value: 1.0,
-      currency: 'BRL',
-      event_callback: complete,
-      event_timeout: 700
-    });
-    window.setTimeout(complete, 800);
-  }
-
   function requestQuote(payload) {
     return fetch(quoteEndpoint, {
       method: 'POST',
@@ -338,7 +329,7 @@
         form.dataset.processing = 'false';
         button.disabled = false;
         button.textContent = originalText;
-        trackEvent('form_contact_completed', { form_name: 'cotacao_protecao_veicular', form_location: 'hero' });
+        trackQuoteSuccess(form, 'cotacao_iniciada_sucesso', 'contactSuccessEventSent', quoteId);
         setStatus(form, '');
         setFormCopy(form, 2);
         showStep(step2, step1);
@@ -424,20 +415,14 @@
         .then(function () {
           form.dataset.processing = 'false';
           form.dataset.finalSubmitted = 'true';
-          trackEvent('generate_lead', {
+          trackQuoteSuccess(form, 'cotacao_concluida_sucesso', 'completionSuccessEventSent', quoteId);
+          setStatus(form, 'Cotação registrada com sucesso! Estamos direcionando você para o WhatsApp.', 'success');
+          trackEvent('whatsapp_click', {
             form_name: 'cotacao_protecao_veicular',
             page_location: window.location.pathname,
-            lead_source: 'website'
+            cta_location: 'form_success_redirect'
           });
-          setStatus(form, 'Cotação registrada com sucesso! Estamos direcionando você para o WhatsApp.', 'success');
-          sendAdsConversion(function () {
-            trackEvent('whatsapp_click', {
-              form_name: 'cotacao_protecao_veicular',
-              page_location: window.location.pathname,
-              cta_location: 'form_success_redirect'
-            });
-            window.location.href = whatsappUrl;
-          });
+          window.location.href = whatsappUrl;
         })
         .catch(function () {
           form.dataset.processing = 'false';
