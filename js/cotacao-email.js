@@ -371,7 +371,14 @@
     mobileQuery.addEventListener('change', function () { floatingWhatsapp.classList.remove('is-hidden'); });
   }
 
+  function placeBenefitsSection() {
+    var banner = document.querySelector('.banner');
+    var benefits = document.querySelector('.section-boxs');
+    if (banner && benefits) banner.insertAdjacentElement('afterend', benefits);
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
+    placeBenefitsSection();
     document.querySelectorAll('.pwr_form').forEach(setupForm);
     setupTracking();
     setupFloatingWhatsapp();
