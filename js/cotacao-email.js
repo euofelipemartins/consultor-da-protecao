@@ -391,8 +391,8 @@
     var benefits = document.querySelector('.section-boxs');
     var steps = document.querySelector('.steps-section');
     var consultant = document.querySelector('.consultant-section');
-    if (banner && partners) banner.insertAdjacentElement('afterend', partners);
-    if (partners && benefits) partners.insertAdjacentElement('afterend', benefits);
+    if (banner && benefits) banner.insertAdjacentElement('afterend', benefits);
+    if (benefits && partners) benefits.insertAdjacentElement('afterend', partners);
     if (steps && consultant) steps.insertAdjacentElement('afterend', consultant);
   }
 
