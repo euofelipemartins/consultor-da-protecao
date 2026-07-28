@@ -72,7 +72,9 @@
 
     if (details.plate) lines.push('Placa: ' + details.plate);
     if (details.city || details.state) lines.push('Cidade/UF: ' + [details.city, details.state].filter(Boolean).join('/'));
-    lines.push('Uso em aplicativo: ' + details.uber, '', 'Gostaria de conhecer as opções de proteção disponíveis para o meu perfil.');
+    lines.push('Uso em aplicativo: ' + details.uber);
+    if (details.preferences.length) lines.push('O que considero mais importante: ' + details.preferences.join(', '));
+    lines.push('', 'Gostaria de conhecer as opções disponíveis para o meu perfil.');
 
     return 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(lines.join('\n'));
   }
@@ -165,6 +167,7 @@
 
   function setupForm(form, index) {
     prepareFields(form, index);
+    var formStarted = false;
 
     var step1 = field(form, 'pwr_step_1');
     var step2 = field(form, 'pwr_step_2');
@@ -180,6 +183,10 @@
 
     [name, mobile, brand, year, model, plate, state, city].forEach(function (input) {
       input.addEventListener('input', function () {
+        if (!formStarted) {
+          formStarted = true;
+          trackEvent('form_start', { form_name: 'cotacao_protecao_veicular', form_location: index === 0 ? 'hero' : 'modal' });
+        }
         if (input === mobile) input.value = formatMobile(input.value);
         if (input === plate) input.value = input.value.toUpperCase();
         markInvalid(input, false);
@@ -202,9 +209,11 @@
       markInvalid(mobile, invalidMobile);
 
       if (invalidName || invalidMobile) {
+        trackEvent('form_validation_error', { form_name: 'cotacao_protecao_veicular', form_step: 1 });
         setStatus(form, 'Informe seu nome e um WhatsApp válido com DDD para continuar.', 'error');
         return;
       }
+      trackEvent('form_step_advance', { form_name: 'cotacao_protecao_veicular', form_step: 1 });
       setStatus(form, '');
       showStep(step2, step1);
     });
@@ -227,9 +236,11 @@
       markInvalid(plate, invalidPlate);
 
       if (!vehicleType || invalidBrand || invalidYear || invalidModel || invalidPlate) {
+        trackEvent('form_validation_error', { form_name: 'cotacao_protecao_veicular', form_step: 2 });
         setStatus(form, 'Selecione o tipo de veículo e preencha marca, ano e modelo corretamente. A placa é opcional.', 'error');
         return;
       }
+      trackEvent('form_step_advance', { form_name: 'cotacao_protecao_veicular', form_step: 2 });
       setStatus(form, '');
       showStep(step3, step2);
     });
@@ -248,6 +259,7 @@
       markInvalid(city, invalidCity);
 
       if (invalidState || invalidCity) {
+        trackEvent('form_validation_error', { form_name: 'cotacao_protecao_veicular', form_step: 3 });
         setStatus(form, 'Informe seu estado e cidade para enviar sua cotação.', 'error');
         return;
       }
@@ -265,7 +277,8 @@
         plate: plate.value.trim(),
         state: state.value.trim(),
         city: city.value.trim(),
-        uber: field(form, 'pwr_field_uber').checked ? 'Sim' : 'Não'
+        uber: field(form, 'pwr_field_uber').checked ? 'Sim' : 'Não',
+        preferences: Array.prototype.slice.call(form.querySelectorAll('[data-preference]:checked')).map(function (input) { return input.value; })
       };
       var quoteData = {
         '_subject': 'Nova cotação pelo site — ' + details.name,
@@ -280,6 +293,7 @@
       addIfPresent(quoteData, 'Placa', details.plate);
       addIfPresent(quoteData, 'Cidade/UF', details.city + '/' + details.state);
       addIfPresent(quoteData, 'Uso em aplicativo', details.uber);
+      addIfPresent(quoteData, 'O que é mais importante', details.preferences.join(', '));
       addIfPresent(quoteData, 'Origem', 'Landing page Consultor da Proteção');
       addIfPresent(quoteData, 'Data e horário', getSubmittedAt());
       var utmParameters = getUtmParameters();
@@ -290,9 +304,9 @@
 
       isSubmitting = true;
       sendButton.disabled = true;
-      sendButton.textContent = 'Enviando sua cotação...';
+      sendButton.textContent = 'Registrando sua cotação...';
       setWhatsAppFallback(form, '', false);
-      setStatus(form, 'Enviando sua cotação...', 'loading');
+      setStatus(form, 'Registrando sua cotação...', 'loading');
 
       fetch(quoteEndpoint, {
         method: 'POST',
@@ -374,7 +388,10 @@
   function placeBenefitsSection() {
     var banner = document.querySelector('.banner');
     var benefits = document.querySelector('.section-boxs');
+    var steps = document.querySelector('.steps-section');
+    var consultant = document.querySelector('.consultant-section');
     if (banner && benefits) banner.insertAdjacentElement('afterend', benefits);
+    if (steps && consultant) steps.insertAdjacentElement('afterend', consultant);
   }
 
   document.addEventListener('DOMContentLoaded', function () {
