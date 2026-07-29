@@ -13,14 +13,17 @@
     window.dataLayer.push(Object.assign({ event: eventName }, details || {}));
   }
 
-  function trackQuoteSuccess(form, eventName, flagName, quoteId) {
+  function trackQuoteSuccess(form, eventName, flagName, quoteId, options) {
     if (form.dataset[flagName] === 'true') return;
     form.dataset[flagName] = 'true';
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
+    var eventData = {
       event: eventName,
       lead_id: String(quoteId)
-    });
+    };
+    if (options && typeof options.eventCallback === 'function') eventData.eventCallback = options.eventCallback;
+    if (options && options.eventTimeout) eventData.eventTimeout = options.eventTimeout;
+    window.dataLayer.push(eventData);
   }
 
   function setStatus(form, message, state) {
@@ -110,6 +113,10 @@
     if (!fallback) return;
     fallback.href = url || '#';
     fallback.hidden = !isVisible;
+  }
+
+  function isManualWhatsAppUrl(href) {
+    return /^(https:\/\/(?:wa\.me|api\.whatsapp\.com|web\.whatsapp\.com)\/|whatsapp:\/\/send(?:[/?]|$))/i.test(String(href || '').trim());
   }
 
   function replaceWithInput(form, name, placeholder, type) {
@@ -415,14 +422,20 @@
         .then(function () {
           form.dataset.processing = 'false';
           form.dataset.finalSubmitted = 'true';
-          trackQuoteSuccess(form, 'cotacao_concluida_sucesso', 'completionSuccessEventSent', quoteId);
           setStatus(form, 'Cotação registrada com sucesso! Estamos direcionando você para o WhatsApp.', 'success');
-          trackEvent('whatsapp_click', {
-            form_name: 'cotacao_protecao_veicular',
-            page_location: window.location.pathname,
-            cta_location: 'form_success_redirect'
+          var hasRedirected = false;
+          var redirectFallback;
+          function redirectToWhatsApp() {
+            if (hasRedirected) return;
+            hasRedirected = true;
+            window.clearTimeout(redirectFallback);
+            window.location.href = whatsappUrl;
+          }
+          redirectFallback = window.setTimeout(redirectToWhatsApp, 1200);
+          trackQuoteSuccess(form, 'cotacao_concluida_sucesso', 'completionSuccessEventSent', quoteId, {
+            eventCallback: redirectToWhatsApp,
+            eventTimeout: 1000
           });
-          window.location.href = whatsappUrl;
         })
         .catch(function () {
           form.dataset.processing = 'false';
@@ -445,9 +458,12 @@
       });
     });
 
-    document.querySelectorAll('[data-track-whatsapp]').forEach(function (button) {
+    document.querySelectorAll('a.js-whatsapp-manual').forEach(function (button) {
+      if (button.dataset.whatsappManualListener === 'true') return;
+      button.dataset.whatsappManualListener = 'true';
       button.addEventListener('click', function () {
-        trackEvent('whatsapp_click', { cta_location: button.dataset.trackWhatsapp });
+        if (!isManualWhatsAppUrl(button.getAttribute('href'))) return;
+        trackEvent('whatsapp_click_manual', { cta_location: button.dataset.whatsappLocation || 'manual' });
       });
     });
 

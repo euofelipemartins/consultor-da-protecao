@@ -31,7 +31,7 @@
         <div class="consultant-contact">
           <strong>Felipe dos Santos Martins</strong>
           <a href="mailto:felipe@consultordaprotecao.com.br">felipe@consultordaprotecao.com.br</a>
-          <a class="whatsapp-button" href="https://wa.me/5519998766431?text=Ol%C3%A1%2C%20Felipe%21%20Vim%20pelo%20site%20e%20gostaria%20de%20receber%20uma%20cota%C3%A7%C3%A3o%20de%20prote%C3%A7%C3%A3o%20veicular." target="_blank" rel="noopener noreferrer" data-track-whatsapp="thank_you" aria-label="Falar com Felipe no WhatsApp">
+          <a class="whatsapp-button js-whatsapp-manual" href="https://wa.me/5519998766431?text=Ol%C3%A1%2C%20Felipe%21%20Vim%20pelo%20site%20e%20gostaria%20de%20receber%20uma%20cota%C3%A7%C3%A3o%20de%20prote%C3%A7%C3%A3o%20veicular." target="_blank" rel="noopener noreferrer" data-whatsapp-location="thank_you" aria-label="Falar com Felipe no WhatsApp">
             <span class="whatsapp-icon" aria-hidden="true"></span>
             <span>WhatsApp do consultor<br><b>(19) 99876-6431</b></span>
           </a>
@@ -44,10 +44,16 @@
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
     window.addEventListener('pageshow', function () { window.scrollTo(0, 0); });
-    document.querySelectorAll('[data-track-whatsapp]').forEach(function (link) {
+    function isManualWhatsAppUrl(href) {
+      return /^(https:\/\/(?:wa\.me|api\.whatsapp\.com|web\.whatsapp\.com)\/|whatsapp:\/\/send(?:[/?]|$))/i.test(String(href || '').trim());
+    }
+    document.querySelectorAll('a.js-whatsapp-manual').forEach(function (link) {
+      if (link.dataset.whatsappManualListener === 'true') return;
+      link.dataset.whatsappManualListener = 'true';
       link.addEventListener('click', function () {
+        if (!isManualWhatsAppUrl(link.getAttribute('href'))) return;
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: 'whatsapp_click', cta_location: link.dataset.trackWhatsapp });
+        window.dataLayer.push({ event: 'whatsapp_click_manual', cta_location: link.dataset.whatsappLocation });
       });
     });
   </script>
