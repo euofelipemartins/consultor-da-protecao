@@ -157,11 +157,11 @@
     var description = form.querySelector('.form-description');
     if (!title || !description) return;
     if (step === 1) {
-      title.textContent = 'Vamos começar sua cotação';
-      description.textContent = 'Primeiro, informe seus dados de contato para continuar.';
+      title.textContent = 'Vamos encontrar uma opção para o seu veículo';
+      description.textContent = 'Informe seu nome e WhatsApp para iniciar. Leva menos de 1 minuto.';
     } else {
-      title.textContent = 'Agora precisamos dos dados do veículo';
-      description.textContent = 'A placa é necessária para identificar o veículo e preparar sua cotação.';
+      title.textContent = 'Agora precisamos identificar o seu veículo';
+      description.textContent = 'Essas informações são necessárias para consultar os valores, benefícios e condições disponíveis.';
     }
   }
 
